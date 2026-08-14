@@ -1,5 +1,7 @@
 # Pornalia — transcript of the approved map reference
 
+> **Canonical context:** Coral is the world. Pornalia is one village within Coral, specifically the initial village and the location chosen for the first isometric test scene. The transcript below describes Pornalia only; it must not be interpreted as a complete map of Coral.
+
 ## Title
 **PORNALIA**  
 *Un pueblo de luz, paz y memorias.*
@@ -19,6 +21,8 @@ Guía a los viajeros en las noches más oscuras.
 
 ### Puerto Brisa
 Desde aquí llegan y parten los viajeros de todo Comira.
+
+> The line above is transcribed from the supplied artwork as seen. Because the newly established canon names the world **Coral**, this wording should be reviewed before final narrative/localization work rather than silently changing the source transcript.
 
 ## Central village
 
@@ -69,6 +73,8 @@ Camino a nuevas aventuras.
 ### Camino a lo Desconocido
 Nadie sabe qué hay más allá...
 
+The southern exit can later connect Pornalia to other parts of **Coral**. Those destinations are not defined yet.
+
 ## About Pornalia
 Un pueblo tranquilo y acogedor, rodeado de naturaleza.  
 Sus habitantes son amables y siempre están dispuestos a ayudar a los viajeros.  
@@ -93,4 +99,4 @@ Pero su recuerdo vive en cada rincón de este pueblo.
 - Puentes
 
 ## Reading confidence notes
-This transcript was read directly from the supplied image. The wording above is preserved as seen in the reference as closely as possible. Before final narrative localization, names and any intentionally unusual phrasing should be reviewed against the original art.
+This transcript was read directly from the supplied image. The wording above is preserved as seen in the reference as closely as possible. Canonical world information is documented separately from the literal image transcription so that source-art text and current game canon are not accidentally mixed.
