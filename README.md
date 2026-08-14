@@ -1,6 +1,34 @@
 # The Legend of Comira
 
-> **Planning document only.** This revision defines the world hierarchy and architecture, but adds **no gameplay code**.
+> **Phase 0 has begun.** The world hierarchy and architecture below remain the
+> plan of record. The first isometric proof scene now exists as running code —
+> see [Running the proof scene](#running-the-proof-scene). Everything beyond
+> that scene is still planning only.
+
+## Running the proof scene
+
+```bash
+npm install
+npm run dev
+```
+
+The Pornalia proof scene renders a small slice of Plaza del Sol on a 2:1
+isometric grid and lets you walk **Comira** around it. Drag anywhere to steer
+with the floating joystick, or tap a tile to walk there — both schemes are live
+so they can be compared, as the control plan requires. Arrow keys and WASD work
+on desktop as a convenience; nothing depends on them.
+
+Caveats worth knowing before reading too much into it:
+
+- The scene uses **Comira**, because hers are the only derived sprites that
+  exist. Canon still has **Cova** as the playable hero.
+- Ground and props are **procedural placeholder shapes generated at runtime**,
+  not art assets. Pornalia has no runtime art yet, and the asset docs forbid
+  manufacturing placeholder art files just to fill the tree.
+- Movement is restricted to the four isometric diagonals, which are the axes
+  Comira has authored walk cycles for. There is no south-facing walk in the
+  surviving reference crops.
+- No Tiled map, elevation, or sign interaction yet — those are still ahead.
 
 ## 1. Project vision
 
