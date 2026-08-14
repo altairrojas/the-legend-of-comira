@@ -1,0 +1,409 @@
+{
+  "character": "Comira",
+  "asset_role": "approved-master-derived-reference-slices",
+  "source_file": "wide_clean_character_sprite_sheet_illustration_on.png",
+  "source_dimensions": {
+    "width": 1536,
+    "height": 1024
+  },
+  "storage_standard": "base64 text files representing PNG image bytes",
+  "runtime_note": "These are reference slices, not final runtime spritesheets. Phaser should eventually load production PNG/WebP/atlas assets derived from them.",
+  "items": [
+    {
+      "id": "01_isometric_views",
+      "source_crop_xyxy": [
+        0,
+        90,
+        800,
+        365
+      ],
+      "dimensions": {
+        "width": 800,
+        "height": 275
+      },
+      "mime_type": "image/png",
+      "encoding": "base64",
+      "base64_file": "base64/01_isometric_views.png.base64.txt",
+      "preview_png": "png/01_isometric_views.png",
+      "sha256_png": "391e13923875a7946a0425927d9e3734774605c75a2e14d99fffcdb85ee1e9cb",
+      "purpose": "Canonical isometric facing/reference views for proportions, silhouette, scarf, satchel, pendant and staff.",
+      "status": "approved-reference-derived",
+      "runtime_use": "reference-only",
+      "phaser_guidance": "Do not load directly as the movable character. Use this slice to author production directional sprites/atlas frames first.",
+      "repository_asset": {
+        "file": "base64-webp/01_isometric_views.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "sha256": "d2bc42ade0eb31d40a0ccb44ded413b28620fe4506b47341c4c808b80b8d17c7",
+        "decoded_extension": ".webp",
+        "quality": 88
+      },
+      "repository_asset_small": {
+        "file": "base64/01_isometric_views.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "decoded_extension": ".webp",
+        "quality": 78,
+        "max_dimension": 512,
+        "sha256": "fc3eb4ed96c4e306de4703c3744f64472bef1b106218e3d6e99dbc877c328559"
+      }
+    },
+    {
+      "id": "02_walk_side",
+      "source_crop_xyxy": [
+        0,
+        350,
+        795,
+        525
+      ],
+      "dimensions": {
+        "width": 795,
+        "height": 175
+      },
+      "mime_type": "image/png",
+      "encoding": "base64",
+      "base64_file": "base64/02_walk_side.png.base64.txt",
+      "preview_png": "png/02_walk_side.png",
+      "sha256_png": "78bdd555329f5cdc2b70114a3b6f0f47ddf560045c5bd905458e9205a58150ef",
+      "purpose": "Reference for side-direction locomotion and frame timing.",
+      "status": "approved-reference-derived",
+      "runtime_use": "reference-only",
+      "phaser_guidance": "Do not load directly as the movable character. Use this slice to author production directional sprites/atlas frames first.",
+      "repository_asset": {
+        "file": "base64-webp/02_walk_side.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "sha256": "9a98e19fc888c5522901d60d38610b56383742464d36e38bac92943b41f20d4d",
+        "decoded_extension": ".webp",
+        "quality": 88
+      },
+      "repository_asset_small": {
+        "file": "base64/02_walk_side.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "decoded_extension": ".webp",
+        "quality": 78,
+        "max_dimension": 512,
+        "sha256": "582fd0d3dc1c49cba96035d9835a4a5c93a325f371408656162bd30ced7718d4"
+      }
+    },
+    {
+      "id": "03_walk_diagonal",
+      "source_crop_xyxy": [
+        0,
+        510,
+        795,
+        675
+      ],
+      "dimensions": {
+        "width": 795,
+        "height": 165
+      },
+      "mime_type": "image/png",
+      "encoding": "base64",
+      "base64_file": "base64/03_walk_diagonal.png.base64.txt",
+      "preview_png": "png/03_walk_diagonal.png",
+      "sha256_png": "032a1d21c6be00a23617d7ecac53cfb4fb72d8b76bc7e663780ff2d34cf67b8a",
+      "purpose": "Reference for diagonal/isometric locomotion and direction coverage.",
+      "status": "approved-reference-derived",
+      "runtime_use": "reference-only",
+      "phaser_guidance": "Do not load directly as the movable character. Use this slice to author production directional sprites/atlas frames first.",
+      "repository_asset": {
+        "file": "base64-webp/03_walk_diagonal.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "sha256": "a15b0d97b56c0d9bb94ccb9f258546a454e89739b8211d67e75af339c5dbad65",
+        "decoded_extension": ".webp",
+        "quality": 88
+      },
+      "repository_asset_small": {
+        "file": "base64/03_walk_diagonal.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "decoded_extension": ".webp",
+        "quality": 78,
+        "max_dimension": 512,
+        "sha256": "019953665dda942efbab6d99ba93a3845faa0e9e839d109a08811e1d1d314da9"
+      }
+    },
+    {
+      "id": "04_expressions",
+      "source_crop_xyxy": [
+        0,
+        655,
+        795,
+        795
+      ],
+      "dimensions": {
+        "width": 795,
+        "height": 140
+      },
+      "mime_type": "image/png",
+      "encoding": "base64",
+      "base64_file": "base64/04_expressions.png.base64.txt",
+      "preview_png": "png/04_expressions.png",
+      "sha256_png": "492ca9ba3434aafeceb7e2650626ab3051da894241873066703c278eb327767f",
+      "purpose": "Reference for facial expression vocabulary; not a runtime animation strip.",
+      "status": "approved-reference-derived",
+      "runtime_use": "reference-only",
+      "phaser_guidance": "Do not load directly as the movable character. Use this slice to author production directional sprites/atlas frames first.",
+      "repository_asset": {
+        "file": "base64-webp/04_expressions.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "sha256": "f45ccae5ecdb323f90a4681fbe362f49c3cafc8e20be18cc5628bec530877d59",
+        "decoded_extension": ".webp",
+        "quality": 88
+      },
+      "repository_asset_small": {
+        "file": "base64/04_expressions.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "decoded_extension": ".webp",
+        "quality": 78,
+        "max_dimension": 512,
+        "sha256": "e80104bb3c9a04969bb77bde6af6305c73918cefb800eb47ff4ba3eec8b2072e"
+      }
+    },
+    {
+      "id": "05_actions",
+      "source_crop_xyxy": [
+        0,
+        780,
+        830,
+        1024
+      ],
+      "dimensions": {
+        "width": 830,
+        "height": 244
+      },
+      "mime_type": "image/png",
+      "encoding": "base64",
+      "base64_file": "base64/05_actions.png.base64.txt",
+      "preview_png": "png/05_actions.png",
+      "sha256_png": "8eb06ee886f2fe361827da4116c8376f88d289e4bced52471c56ee90537d0ea8",
+      "purpose": "Reference for action poses: idle/sit, jump, staff attack, heal/cast and related gameplay poses.",
+      "status": "approved-reference-derived",
+      "runtime_use": "reference-only",
+      "phaser_guidance": "Do not load directly as the movable character. Use this slice to author production directional sprites/atlas frames first.",
+      "repository_asset": {
+        "file": "base64-webp/05_actions.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "sha256": "79aa4b1ee3d62794966c5f30929494da18655cd9b0e0ca7c3212af0a07f2ec80",
+        "decoded_extension": ".webp",
+        "quality": 88
+      },
+      "repository_asset_small": {
+        "file": "base64/05_actions.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "decoded_extension": ".webp",
+        "quality": 78,
+        "max_dimension": 512,
+        "sha256": "873421037b3874f8276ef1ba8bfc7c9754996f330e66f9e18d132f6a85f2cfc0"
+      }
+    },
+    {
+      "id": "06_vfx_light",
+      "source_crop_xyxy": [
+        775,
+        90,
+        1125,
+        510
+      ],
+      "dimensions": {
+        "width": 350,
+        "height": 420
+      },
+      "mime_type": "image/png",
+      "encoding": "base64",
+      "base64_file": "base64/06_vfx_light.png.base64.txt",
+      "preview_png": "png/06_vfx_light.png",
+      "sha256_png": "ba2f993631f7955eff044181e7d42041ab5ad35de7d5d3d66071ae40b5025453",
+      "purpose": "Reference for light-element VFX, attack glow and crystal/staff effects.",
+      "status": "approved-reference-derived",
+      "runtime_use": "reference-only",
+      "phaser_guidance": "Do not load directly as the movable character. Use this slice to author production directional sprites/atlas frames first.",
+      "repository_asset": {
+        "file": "base64-webp/06_vfx_light.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "sha256": "9d1c21b0526a311dcc4b3bfa00b5259259c801d5dfa9ad0705412ceb634953c8",
+        "decoded_extension": ".webp",
+        "quality": 88
+      },
+      "repository_asset_small": {
+        "file": "base64/06_vfx_light.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "decoded_extension": ".webp",
+        "quality": 78,
+        "max_dimension": 512,
+        "sha256": "cd3735f9a088ae2457e8d280b759002bab8b5ca0dd97295713f9a7ccb8a95767"
+      }
+    },
+    {
+      "id": "07_vfx_heal_and_shadow",
+      "source_crop_xyxy": [
+        1110,
+        90,
+        1536,
+        510
+      ],
+      "dimensions": {
+        "width": 426,
+        "height": 420
+      },
+      "mime_type": "image/png",
+      "encoding": "base64",
+      "base64_file": "base64/07_vfx_heal_and_shadow.png.base64.txt",
+      "preview_png": "png/07_vfx_heal_and_shadow.png",
+      "sha256_png": "2e40f22478ffb94c8cf1fa9107e0e607e8aa200e2f5ee863d8425cfa0838a0c4",
+      "purpose": "Reference for healing VFX, shadow/contact footprint and related effects.",
+      "status": "approved-reference-derived",
+      "runtime_use": "reference-only",
+      "phaser_guidance": "Do not load directly as the movable character. Use this slice to author production directional sprites/atlas frames first.",
+      "repository_asset": {
+        "file": "base64-webp/07_vfx_heal_and_shadow.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "sha256": "9c7f39b93c5df7fb9839f9b5530ff7e9c86eb08e6f1b1b94ed7e9c207bcd4389",
+        "decoded_extension": ".webp",
+        "quality": 88
+      },
+      "repository_asset_small": {
+        "file": "base64/07_vfx_heal_and_shadow.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "decoded_extension": ".webp",
+        "quality": 78,
+        "max_dimension": 512,
+        "sha256": "9acfe00513e37a958d06a4b1492b2dc499d9da3efb95c018393e9985852f924a"
+      }
+    },
+    {
+      "id": "08_ui_icons",
+      "source_crop_xyxy": [
+        800,
+        500,
+        1536,
+        800
+      ],
+      "dimensions": {
+        "width": 736,
+        "height": 300
+      },
+      "mime_type": "image/png",
+      "encoding": "base64",
+      "base64_file": "base64/08_ui_icons.png.base64.txt",
+      "preview_png": "png/08_ui_icons.png",
+      "sha256_png": "1f890a34d11e3c34492914feace57e80f9bf922a16137190c2a0e39d03f12800",
+      "purpose": "Reference for Comira-specific UI iconography and HUD portrait language.",
+      "status": "approved-reference-derived",
+      "runtime_use": "reference-only",
+      "phaser_guidance": "Do not load directly as the movable character. Use this slice to author production directional sprites/atlas frames first.",
+      "repository_asset": {
+        "file": "base64-webp/08_ui_icons.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "sha256": "d38c4df9c7bf87f5c7a2e902514ea91a9c5a9ff798b87a4dbd505d8a7421178a",
+        "decoded_extension": ".webp",
+        "quality": 88
+      },
+      "repository_asset_small": {
+        "file": "base64/08_ui_icons.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "decoded_extension": ".webp",
+        "quality": 78,
+        "max_dimension": 512,
+        "sha256": "a772861040970a1fbdffc8263740b480dc9e6b4269f505b03f81042a5f56306c"
+      }
+    },
+    {
+      "id": "09_palette",
+      "source_crop_xyxy": [
+        820,
+        790,
+        1120,
+        1024
+      ],
+      "dimensions": {
+        "width": 300,
+        "height": 234
+      },
+      "mime_type": "image/png",
+      "encoding": "base64",
+      "base64_file": "base64/09_palette.png.base64.txt",
+      "preview_png": "png/09_palette.png",
+      "sha256_png": "58a811022c0103c7ef9c84075ad8b1cdbc9f69b7e1dd2b751604b846f01d0c8c",
+      "purpose": "Canonical color-palette reference.",
+      "status": "approved-reference-derived",
+      "runtime_use": "reference-only",
+      "phaser_guidance": "Do not load directly as the movable character. Use this slice to author production directional sprites/atlas frames first.",
+      "repository_asset": {
+        "file": "base64-webp/09_palette.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "sha256": "1f6032a728249357a78ab68db9682182e0b8e465f106017ea7e24a638f68d442",
+        "decoded_extension": ".webp",
+        "quality": 88
+      },
+      "repository_asset_small": {
+        "file": "base64/09_palette.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "decoded_extension": ".webp",
+        "quality": 78,
+        "max_dimension": 512,
+        "sha256": "25d96ed3d2cba2c1bf63cf0754e5bc468671275171adda6ace67a69b51f07ff2"
+      }
+    },
+    {
+      "id": "10_sprite_technical_notes",
+      "source_crop_xyxy": [
+        1110,
+        790,
+        1536,
+        1024
+      ],
+      "dimensions": {
+        "width": 426,
+        "height": 234
+      },
+      "mime_type": "image/png",
+      "encoding": "base64",
+      "base64_file": "base64/10_sprite_technical_notes.png.base64.txt",
+      "preview_png": "png/10_sprite_technical_notes.png",
+      "sha256_png": "dd209765efb28f5b0eace4cb310ec0cae5dbc034e9b80f18f11260a586add449",
+      "purpose": "Reference for sprite/technical layout and implementation notes from the approved master.",
+      "status": "approved-reference-derived",
+      "runtime_use": "reference-only",
+      "phaser_guidance": "Do not load directly as the movable character. Use this slice to author production directional sprites/atlas frames first.",
+      "repository_asset": {
+        "file": "base64-webp/10_sprite_technical_notes.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "sha256": "04327b2c19b8a2fdece2761f8f7173101e39c19a8a5978e8e310295f38ee5f12",
+        "decoded_extension": ".webp",
+        "quality": 88
+      },
+      "repository_asset_small": {
+        "file": "base64/10_sprite_technical_notes.webp.base64.txt",
+        "mime_type": "image/webp",
+        "encoding": "base64",
+        "decoded_extension": ".webp",
+        "quality": 78,
+        "max_dimension": 512,
+        "sha256": "dee224207b6acfc91f33dd23c0aba2df9ac3840f99ac5a8dde5ba305779b7405"
+      }
+    }
+  ],
+  "repository_storage_policy": {
+    "approved_master_source": "PNG master remains the canonical visual source.",
+    "derived_repository_slices": "High-quality WebP derivatives encoded as Base64 text.",
+    "reason": "Smaller text payloads while preserving clear reference detail.",
+    "decode_rule": "Base64-decode bytes and save using decoded_extension; MIME must match metadata."
+  }
+}
