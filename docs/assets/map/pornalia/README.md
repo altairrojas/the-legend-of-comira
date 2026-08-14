@@ -2,13 +2,56 @@
 
 This folder preserves and decomposes the approved Pornalia map reference for the **planning / asset-structuring phase**. No Phaser gameplay code is introduced here.
 
+## World hierarchy
+
+**Coral** is the world in which *The Legend of Comira* takes place. Coral contains **multiple towns/villages and regions**.
+
+**Pornalia is not the whole world.** Pornalia is one village inside Coral. It is the **initial village** and the location selected for the first isometric proof/test scene.
+
+Canonical hierarchy:
+
+```text
+Coral (world)
+└── Pornalia (initial village / current test-scene focus)
+    ├── Plaza del Sol
+    ├── schools
+    ├── shops and services
+    ├── port and lighthouse
+    ├── farms and training area
+    ├── natural landmarks
+    └── Puerta Sur → routes toward other parts of Coral
+```
+
+Other Coral villages and regions will be documented separately when they are defined. We should not invent them during the Pornalia planning phase.
+
 ## Goals
 
-1. Preserve the full original map as a master reference.
-2. Split the map into smaller overlapping regional images.
+1. Preserve the full original Pornalia map as a master reference.
+2. Split the village map into smaller overlapping regional images.
 3. Record every readable label and story note.
 4. Define a future Phaser-friendly reconstruction plan without pretending these crops are final runtime tiles.
-5. Keep map art separate from character art.
+5. Keep village/map art separate from character art.
+6. Keep the asset hierarchy ready for additional Coral villages without mixing their files with Pornalia.
+
+## Asset organization
+
+The long-term hierarchy should distinguish the **world** from its individual **villages/regions**:
+
+```text
+public/assets/worlds/coral/
+├── shared/                     # future assets genuinely shared across Coral
+└── villages/
+    └── pornalia/               # first village and proof-scene location
+        ├── reference/
+        ├── sections/
+        ├── tilesets/
+        ├── buildings/
+        ├── landmarks/
+        ├── props/
+        └── tiled/
+```
+
+The existing Pornalia planning/reference files remain under `docs/assets/map/pornalia/` for now. When runtime assets are produced, they should follow the Coral → villages → Pornalia hierarchy above rather than treating Pornalia as a world.
 
 ## Current files
 
@@ -43,53 +86,13 @@ The section images overlap intentionally. This avoids cutting roads, rivers, sta
 
 The current regional JPGs are **reference assets**, not yet production tilemaps.
 
-For a real Phaser isometric RPG, the next art-production phase should decompose the reference into reusable runtime groups:
+For the Phaser isometric RPG, a later art-production phase should decompose Pornalia into reusable runtime groups such as ground, paths, cliffs, water, bridges, stairs, vegetation, buildings, landmarks and props. These runtime assets belong to Pornalia's village folder inside the Coral world hierarchy.
 
-```text
-public/assets/map/pornalia/
-├── tilesets/
-│   ├── ground/
-│   ├── paths/
-│   ├── cliffs/
-│   ├── water/
-│   ├── bridges/
-│   ├── stairs/
-│   └── vegetation/
-├── buildings/
-│   ├── lighthouse/
-│   ├── bakery/
-│   ├── lumin-shop/
-│   ├── light-school/
-│   ├── wind-school/
-│   ├── inn/
-│   ├── healing-hall/
-│   └── workshop/
-├── landmarks/
-│   ├── memory-tree/
-│   ├── sun-plaza/
-│   ├── clear-waterfall/
-│   ├── training-field/
-│   ├── rainbow-farms/
-│   └── south-gate/
-├── props/
-│   ├── lamps/
-│   ├── fences/
-│   ├── signs/
-│   ├── banners/
-│   ├── crates/
-│   ├── flowers/
-│   └── market-stalls/
-└── tiled/
-    ├── pornalia.tmx
-    ├── pornalia-world.json
-    └── tilesets/
-```
-
-Nothing in the tree above is claimed to exist yet. It is the intended production breakdown.
+Nothing in that future structure is claimed to exist yet.
 
 ## Phaser reconstruction strategy
 
-The map should be rebuilt in **Tiled** as an isometric map rather than displayed as one giant background image.
+Pornalia should eventually be rebuilt in **Tiled** as an isometric village map rather than displayed as one giant background image.
 
 Recommended logical layers:
 
@@ -113,11 +116,13 @@ Recommended logical layers:
 
 The front/back split is important so Cova can correctly pass behind trees, houses and tall props.
 
-## First test scene derived from this map
+## First test scene derived from Pornalia
+
+The first proof scene is deliberately located in **Pornalia**, because Pornalia is Coral's initial village and our current development focus. It is only a technical slice of this village, not a representation of the entire world of Coral.
 
 Do **not** rebuild all Pornalia first.
 
-The first isometric test should use only a tiny region inspired by the center of the map:
+The future isometric test should use only a tiny region inspired by the center of the map:
 
 - part of Plaza del Sol;
 - one short path;
@@ -127,15 +132,6 @@ The first isometric test should use only a tiny region inspired by the center of
 - one interactable sign;
 - Cova.
 
-This is enough to validate:
-- isometric depth sorting;
-- touch movement;
-- collision;
-- pathfinding if adopted;
-- camera;
-- occlusion;
-- elevation;
-- interaction prompts;
-- performance on iPad.
+This is enough to validate isometric depth sorting, touch movement, collision, pathfinding if adopted, camera, occlusion, elevation, interaction prompts and iPad performance.
 
-Only after the test succeeds should the full Pornalia map be reconstructed.
+Only after the test succeeds should the full Pornalia village be reconstructed. Other Coral villages remain outside the scope of this proof scene.
