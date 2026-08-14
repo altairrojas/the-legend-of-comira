@@ -1,0 +1,21 @@
+{
+  "map": "Pornalia",
+  "landmarks": [
+    {"id":"memory_tree","name":"Árbol de los Recuerdos","region":"north","type":"important_place","future_asset_group":"landmarks/memory-tree"},
+    {"id":"whisper_forest","name":"Bosque Susurro","region":"northeast","type":"nature_zone","future_asset_group":"tilesets/vegetation"},
+    {"id":"pornalia_lighthouse","name":"Faro de Pornalia","region":"northwest","type":"landmark","future_asset_group":"buildings/lighthouse"},
+    {"id":"breeze_port","name":"Puerto Brisa","region":"west","type":"port","future_asset_group":"landmarks/port"},
+    {"id":"golden_bakery","name":"Panadería Dorada","region":"central-west","type":"shop","future_asset_group":"buildings/bakery"},
+    {"id":"sun_plaza","name":"Plaza del Sol","region":"center","type":"important_place","future_asset_group":"landmarks/sun-plaza"},
+    {"id":"lumin_shop","name":"Tienda de Lumin","region":"central-east","type":"shop","future_asset_group":"buildings/lumin-shop"},
+    {"id":"clear_waterfall","name":"Cascada Clara","region":"east","type":"nature_landmark","future_asset_group":"landmarks/clear-waterfall"},
+    {"id":"light_school","name":"Escuela de la Luz","region":"southwest-center","type":"school","future_asset_group":"buildings/light-school"},
+    {"id":"wind_school","name":"Escuela del Viento","region":"southeast-center","type":"school","future_asset_group":"buildings/wind-school"},
+    {"id":"training_field","name":"Campo de Entrenamiento","region":"southwest","type":"training","future_asset_group":"landmarks/training-field"},
+    {"id":"suun_workshop","name":"Taller de Suun","region":"south-center","type":"workshop","future_asset_group":"buildings/workshop"},
+    {"id":"serene_breeze_inn","name":"Posada Brisa Serena","region":"south-center-east","type":"inn","future_asset_group":"buildings/inn"},
+    {"id":"healing_hall","name":"Sala de Curación","region":"southeast","type":"healing","future_asset_group":"buildings/healing-hall"},
+    {"id":"rainbow_farms","name":"Granjas Arcoíris","region":"southwest","type":"farm","future_asset_group":"landmarks/rainbow-farms"},
+    {"id":"south_gate","name":"Puerta Sur","region":"south","type":"exit","future_asset_group":"landmarks/south-gate"}
+  ]
+}

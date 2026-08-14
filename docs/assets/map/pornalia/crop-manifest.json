@@ -1,0 +1,19 @@
+{
+  "source": "pornalia-map-master.jpg",
+  "source_size": {"width": 1536, "height": 1151},
+  "note": "Crops intentionally overlap so landmarks, paths and elevations are not cut at section boundaries.",
+  "sections": [
+    {"file":"public/assets/map/pornalia/sections/01_northwest_lighthouse_port.jpg","box_xyxy":[190,120,610,650],"width":420,"height":530},
+    {"file":"public/assets/map/pornalia/sections/02_north_memory_tree.jpg","box_xyxy":[545,30,1000,380],"width":455,"height":350},
+    {"file":"public/assets/map/pornalia/sections/03_northeast_forest_waterfall.jpg","box_xyxy":[930,20,1340,580],"width":410,"height":560},
+    {"file":"public/assets/map/pornalia/sections/04_west_bakery_light_school.jpg","box_xyxy":[390,250,740,720],"width":350,"height":470},
+    {"file":"public/assets/map/pornalia/sections/05_center_plaza.jpg","box_xyxy":[600,300,965,700],"width":365,"height":400},
+    {"file":"public/assets/map/pornalia/sections/06_east_lumin_wind_school.jpg","box_xyxy":[840,250,1190,720],"width":350,"height":470},
+    {"file":"public/assets/map/pornalia/sections/07_southwest_training_farms.jpg","box_xyxy":[210,570,690,1030],"width":480,"height":460},
+    {"file":"public/assets/map/pornalia/sections/08_southeast_inn_healing.jpg","box_xyxy":[730,570,1140,1000],"width":410,"height":430},
+    {"file":"public/assets/map/pornalia/sections/09_south_gate_unknown_path.jpg","box_xyxy":[540,760,930,1145],"width":390,"height":385},
+    {"file":"public/assets/map/pornalia/sections/10_legend.jpg","box_xyxy":[1080,520,1305,915],"width":225,"height":395},
+    {"file":"public/assets/map/pornalia/sections/11_about_pornalia.jpg","box_xyxy":[190,880,615,1135],"width":425,"height":255},
+    {"file":"public/assets/map/pornalia/sections/12_story_memory_panel.jpg","box_xyxy":[900,870,1305,1138],"width":405,"height":268}
+  ]
+}
