@@ -1,360 +1,154 @@
 # The Legend of Comira
 
-> **Planning document only.** This revision changes the game plan and architecture, but adds **no gameplay code**.
+> **Planning document only.** This revision defines the world hierarchy and architecture, but adds **no gameplay code**.
 
 ## 1. Project vision
 
-**The Legend of Comira** will be a **touch-first isometric exploration RPG** set primarily in **Pornalia**.
+**The Legend of Comira** will be a **touch-first isometric exploration RPG** set in the fantasy world of **Coral**.
 
-The intended experience is no longer a free-camera 3D/open-world prototype. The game should use a readable **2D / 2.5D isometric presentation**, with the player exploring paths, buildings, gardens and landmarks from a fixed isometric viewpoint.
+### World hierarchy
+
+**Coral is the world.** Coral contains multiple towns/villages and regions. **Pornalia is one village inside Coral**, not the name of the whole world.
+
+Pornalia is the **initial village**, and it is the location we will use for the first isometric proof/test scene. During the current planning phase, Pornalia is our main environment focus; other Coral villages should not be invented or implemented until they are intentionally designed.
+
+```mermaid
+graph TD;
+    Coral["Coral — World"] --> Pornalia["Pornalia — Initial village"];
+    Coral --> Future["Other villages / regions — not defined yet"];
+    Pornalia --> Proof["First isometric proof scene"];
+    Proof --> Plaza["Small Plaza del Sol test area"];
+```
+
+The intended experience uses a readable **2D / 2.5D isometric presentation**, with the player exploring paths, buildings, gardens and landmarks from a fixed isometric viewpoint.
 
 - **Cova** is the playable dark/black cat hero.
 - Cova does not speak.
 - **Comira** is a separate white-cat heroine who appears in story/memory sequences.
-- Pornalia is an original fantasy village/world.
+- **Coral** is the larger world.
+- **Pornalia** is Coral's initial village and the current test-scene focus.
 - Exploration is the primary activity.
 - RPG systems should support exploration rather than turn the project into a combat-heavy game.
 - The old Vercel build is an early prototype only and is not the visual or technical foundation for this rebuild.
 
-### Core design pillars
+## 2. Current planning scope
 
-1. **Explore:** walk through Pornalia and discover places, paths and secrets.
-2. **Discover:** environmental storytelling, objects, NPCs and Comira memories reward curiosity.
-3. **Interact:** inspect objects, enter important places, trigger events and solve lightweight environmental challenges.
-4. **Progress:** quests, discoveries and story milestones gradually unlock new areas or abilities.
-5. **Touch first:** the complete game must be comfortable on iPad without WASD or a physical keyboard.
-6. **Readable isometric world:** character depth, occlusion and walkable areas must always be understandable.
+We are still in **documentation and asset-structuring mode**. No gameplay implementation should begin yet.
 
-## 2. Canonical characters
+Current scope:
+
+1. Define Coral as the world container.
+2. Organize Pornalia as a village within Coral.
+3. Preserve and decompose the approved Pornalia reference map.
+4. Prepare a Phaser-friendly asset hierarchy.
+5. Define a very small Pornalia proof scene for a later coding phase.
+
+Out of scope right now: building Phaser scenes, movement, collisions, quests, Supabase gameplay systems, or additional Coral villages.
+
+## 3. Canonical characters
 
 ### Cova
-
 Cova is the dark/black cat playable hero. All files, folders, IDs and documentation must use the spelling **Cova**.
 
-Cova documentation: `docs/assets/characters/cova/README.md`
+Documentation: `docs/assets/characters/cova/README.md`
 
 ### Comira
-
 Comira is the approved **white cat heroine**. She is a separate character, not a Cova skin or recolor.
 
-Comira documentation: `docs/assets/characters/comira/README.md`
+Documentation: `docs/assets/characters/comira/README.md`
 
-## 3. Target technology stack
+## 4. Target technology stack
 
 | Layer | Technology | Decision / purpose |
 |---|---|---|
-| Language | **TypeScript** | Game-state, scenes, entities, input and asset code |
-| Game framework | **Phaser 3** | Primary engine: scenes, input, cameras, animation, audio, tilemaps, collisions and UI |
-| Map editor | **Tiled** | Candidate editor for isometric maps and object/layer metadata |
-| Map format | **Tiled JSON** | Phaser can load Tiled isometric tilemaps directly |
-| Rendering | **Phaser WebGL / Canvas** | Primary runtime rendering path |
-| Bundler | **Vite** | Development and production build pipeline |
-| Browser shell | **HTML + CSS** | Minimal wrapper around the game canvas |
+| Language | **TypeScript** | Future game-state, scenes, entities and input |
+| Game framework | **Phaser 3** | Primary future engine |
+| Map editor | **Tiled** | Candidate editor for isometric maps and metadata |
+| Map format | **Tiled JSON** | Planned Phaser-compatible map representation |
+| Rendering | **Phaser WebGL / Canvas** | Runtime rendering path |
+| Bundler | **Vite** | Development and production builds |
+| Browser shell | **HTML + CSS** | Wrapper around the future game canvas |
 | Package manager | **npm** | Dependencies and builds |
 | Hosting | **Vercel** | Preview and production deployments |
 | Version control | **GitHub** | Permanent source of truth |
 | Optional backend | **Supabase** | Saves/accounts/storage only if later justified |
 
-### Architecture change: Three.js is no longer required
+Three.js is not required for the planned isometric RPG. The first playable foundation should use Phaser 3 alone unless a future requirement proves real 3D is necessary.
 
-The previous plan paired Phaser with Three.js for a fully 3D world. The new isometric RPG direction makes that complexity unnecessary for the first implementation.
+## 5. Asset hierarchy
 
-**Default decision:** build the first playable scene entirely in Phaser 3.
-
-Phaser has supported isometric Tiled tilemaps since Phaser 3.50. That gives us a substantially simpler architecture and is much closer to the desired RPG style.
-
-Three.js is therefore moved from **required stack** to **rejected/deferred experiment**. It should only return if a future feature genuinely requires real 3D geometry that cannot reasonably be represented with isometric art.
-
-## 4. Isometric rendering model
-
-```mermaid
-graph TD;
-    Player["Player on iPad / browser"] --> Input["Touch input"];
-    Input --> Phaser["Phaser 3"];
-    Phaser --> Scene["Isometric RPG scene"];
-    Scene --> Map["Tiled isometric tilemap"];
-    Scene --> Cova["Cova sprite / animation"];
-    Scene --> Entities["NPCs + interactables"];
-    Scene --> Camera["Fixed isometric camera + follow"];
-    Scene --> HUD["RPG HUD + dialogue + prompts"];
-    Scene --> State["Game / quest / exploration state"];
-    State -. "optional persistence later" .-> Supabase["Supabase"];
-```
-
-### Visual model
-
-Target projection: classic **2:1 isometric / diamond tilemap** unless the proof scene demonstrates a better ratio.
-
-The world should be constructed from layers such as:
-
-1. ground;
-2. paths/water;
-3. low decoration;
-4. buildings/large props;
-5. characters/NPCs;
-6. foreground/roof/occlusion layers;
-7. effects;
-8. HUD.
-
-Correct depth sorting is a **Phase 0 requirement**. Cova must appear behind or in front of objects naturally as she moves through the map.
-
-## 5. Camera and controls
-
-The camera is no longer a freely orbiting 3D camera.
-
-### Camera
-
-- fixed isometric viewing angle;
-- follows Cova smoothly;
-- does not rotate during ordinary exploration;
-- map bounds prevent showing empty world outside Pornalia;
-- optional small look-ahead in the movement direction;
-- zoom may be evaluated, but is not required for the proof scene.
-
-### iPad controls
-
-The design must never depend on WASD.
-
-Primary candidates to test:
-
-- virtual joystick / directional pad for continuous exploration;
-- tap-to-move as an alternative or accessibility option;
-- large context-sensitive interaction button;
-- touch-friendly pause/inventory/quest controls.
-
-The proof scene should compare joystick movement with tap-to-move before selecting the final exploration control scheme.
-
-## 6. RPG scope
-
-This is an **exploration RPG**, so the first systems should be deliberately small.
-
-### Required eventually
-
-- exploration and movement;
-- NPC interaction;
-- dialogue / non-verbal Cova reactions;
-- quests or objectives;
-- discoverable locations;
-- interactable objects;
-- inventory for story/key items;
-- area transitions / interiors;
-- checkpoints/save state;
-- Comira memory/story triggers.
-
-### Not required for the first proof
-
-- combat;
-- character levels;
-- skill trees;
-- crafting;
-- multiplayer;
-- procedural infinite worlds;
-- realtime backend.
-
-These features require a separate design decision before implementation.
-
-## 7. Internal game flow
-
-```mermaid
-graph TD;
-    Start["Game start"] --> Boot["BootScene"];
-    Boot --> Preload["PreloadScene"];
-    Preload --> Title["TitleScene"];
-    Title --> Pornalia["PornaliaScene"];
-    Pornalia --> Interior["Interior / location scene"];
-    Interior --> Pornalia;
-    Pornalia --> Memory["Comira MemoryScene"];
-    Memory --> Pornalia;
-    Pornalia --> Pause["Pause / inventory / quests"];
-    Pause --> Pornalia;
-```
-
-## 8. Planned repository structure
+The asset tree must reflect the difference between a **world** and a **village**.
 
 ```text
-the-legend-of-comira/
-├── README.md
-├── docs/
-│   ├── research/
-│   │   └── isometric-reference-projects.md   # planned
-│   └── assets/
-│       ├── characters/
-│       │   ├── comira/
-│       │   │   └── README.md
-│       │   └── cova/
-│       │       └── README.md
-│       ├── comira-blanca-reference.svg
-│       └── cova-oscuro-atigrado-reference.svg
-├── public/
-│   └── assets/
-│       ├── characters/
-│       │   ├── cova/
-│       │   └── comira/
-│       ├── worlds/
-│       │   └── pornalia/
-│       │       ├── maps/
-│       │       ├── tilesets/
-│       │       ├── props/
-│       │       └── interiors/
-│       ├── ui/
-│       ├── audio/
-│       └── fonts/
-├── src/
-│   ├── main.ts
-│   ├── game/
-│   │   ├── config/
-│   │   ├── scenes/
-│   │   ├── entities/
-│   │   ├── systems/
-│   │   │   ├── input/
-│   │   │   ├── movement/
-│   │   │   ├── pathfinding/
-│   │   │   ├── depth-sorting/
-│   │   │   ├── interaction/
-│   │   │   ├── dialogue/
-│   │   │   ├── quests/
-│   │   │   ├── inventory/
-│   │   │   └── save/
-│   │   └── state/
-│   ├── ui/
-│   ├── services/
-│   │   └── supabase/
-│   └── styles/
-└── tests/
+public/assets/
+├── characters/
+│   ├── cova/
+│   └── comira/
+├── worlds/
+│   └── coral/
+│       ├── shared/                 # future assets shared across Coral
+│       └── villages/
+│           └── pornalia/           # initial village / proof-scene location
+│               ├── reference/
+│               ├── sections/
+│               ├── tilesets/
+│               ├── buildings/
+│               ├── landmarks/
+│               ├── props/
+│               ├── interiors/
+│               └── tiled/
+├── ui/
+├── audio/
+└── fonts/
 ```
 
-This is a **target structure**, not evidence that these files already exist.
+Existing Pornalia planning assets are currently documented in `docs/assets/map/pornalia/`. They may be migrated into the final runtime hierarchy when production assets are created; do not duplicate or manufacture placeholder runtime art merely to make the directory tree exist.
 
-## 9. Reference-project research — no code adopted yet
+Pornalia documentation: `docs/assets/map/pornalia/README.md`
 
-The following projects/resources are research candidates only. **Nothing from them has been copied into this repository.** Before adopting code or assets we must review architecture, maintenance status, license and whether the technique works well on iPad.
+Pornalia source-image transcript: `docs/assets/map/pornalia/TRANSCRIPT.md`
 
-### Candidate A — official Phaser isometric tilemap support
+## 6. Isometric rendering plan
 
-Phaser itself is the strongest starting point. Since Phaser 3.50 it can import **isometric, hexagonal and staggered isometric tilemaps from Tiled**. The official Phaser examples include an `isorpg.json` isometric RPG map example.
+Target projection: classic **2:1 isometric / diamond tilemap** unless the later proof scene demonstrates a better ratio.
 
-**Why it matters:** this may let us avoid an extra isometric rendering plugin entirely.
+Planned logical layers include ground, water, paths, cliffs, stairs, bridges, background buildings/vegetation, collision, navigation, interactions, characters, foreground/roof occlusion, effects and debug labels.
 
-Research:
-- Phaser official isometric tilemap examples.
-- Phaser official examples repository: `phaserjs/examples`.
+Correct depth sorting is a future Phase 0 requirement: Cova must appear behind or in front of Pornalia objects naturally.
 
-**Priority: VERY HIGH.** Start here before third-party plugins.
+## 7. Camera and touch controls
 
-### Candidate B — Nulligma/phaser-isometric-test
+The future camera should use a fixed isometric viewing angle and smoothly follow Cova. The game must never depend on WASD because touch/iPad is a primary target.
 
-GitHub project: `Nulligma/phaser-isometric-test`.
+The future proof scene should compare a virtual joystick/directional control with tap-to-move before choosing the final exploration control scheme.
 
-It demonstrates Phaser 3 + TypeScript with:
+## 8. First proof scene: Pornalia
 
-- an elevated isometric Tiled map;
-- multiple floors;
-- depth sorting;
-- A* pathfinding;
-- walkable tiles;
-- camera/tile coordinate handling across elevations.
+The first technical scene will take place in **Pornalia**, but it must represent only a tiny slice of the village. It is not the entire village and definitely not the entire world of Coral.
 
-**Why it matters:** these are almost exactly the technical questions our Pornalia proof scene must answer.
+Planned ingredients:
 
-License reported by the repository: **MIT**.
+- part of Plaza del Sol;
+- one short path;
+- one small building facade;
+- one tree;
+- one bridge or elevation feature;
+- one interactable sign;
+- Cova.
 
-**Priority: HIGH for architecture research.** Do not blindly fork it; first study how it solves depth, elevation and pathfinding.
+Future acceptance criteria include touch movement, isometric-axis movement, camera following, collision, depth sorting, foreground occlusion, one interaction, and acceptable iPad performance.
 
-### Candidate C — mattiaa95/realmforge
+Only after this proof succeeds should we begin reconstructing the full Pornalia village. Only after Pornalia's foundation is understood should additional Coral settlements be planned technically.
 
-GitHub project: `mattiaa95/realmforge`.
+## 9. RPG scope
 
-A browser-based 2D isometric MMORPG using a **Phaser 3 + TypeScript client**. Its full MMO/server architecture is far beyond what The Legend of Comira needs, but it can be studied for isometric world organization and browser rendering patterns.
+Eventually required: exploration, NPC interaction, dialogue/non-verbal Cova reactions, objectives, discoverable locations, interactable objects, story/key-item inventory, interiors/area transitions, save state and Comira memory triggers.
 
-**Priority: MEDIUM for research only.** Avoid importing its multiplayer/server complexity.
+Not required for the first proof: combat, levels, skill trees, crafting, multiplayer, procedural infinite worlds or realtime backend.
 
-### Candidate D — rexrainbow/phaser3-rex-notes / Rex plugins
+## 10. Deployment architecture
 
-Rex's Phaser plugin collection includes board/grid utilities and an isometric grid mode, plus many UI and movement utilities.
-
-Potentially useful later for:
-
-- touch UI;
-- movement helpers;
-- board/grid calculations;
-- dialogue/UI components.
-
-**Priority: MEDIUM.** Add individual plugins only when they solve a demonstrated need.
-
-### Candidate E — mipearson/dungeondash
-
-Open-source Phaser 3 + TypeScript dungeon-crawler experiment.
-
-It is not our visual target, but it may provide useful examples for RPG project organization and field-of-view / dungeon systems.
-
-**Priority: LOW/MEDIUM.** Architectural inspiration only.
-
-### GitLab research status
-
-Initial public searches did not produce a GitLab project as directly relevant as the Phaser/GitHub candidates above. Do not choose a weaker dependency merely to have a GitLab option. Continue searching during the proof-scene research phase.
-
-## 10. Proposed proof scene — planning only
-
-Before rebuilding Pornalia, create a tiny **Isometric Playground** on a future feature branch.
-
-The scene should contain only enough content to answer technical questions:
-
-```mermaid
-graph LR;
-    Spawn["Cova spawn"] --> Path["Short isometric path"];
-    Path --> House["One house / tall obstacle"];
-    Path --> Tree["Trees / foreground props"];
-    Path --> NPC["One NPC"];
-    Path --> Trigger["One interaction / discovery trigger"];
-```
-
-### Proof-scene acceptance criteria
-
-- [ ] Loads an isometric Tiled JSON map in Phaser.
-- [ ] Cova moves in all useful world directions using touch.
-- [ ] Movement visually matches the isometric axes.
-- [ ] Camera follows Cova smoothly.
-- [ ] Cova cannot walk through blocked tiles/objects.
-- [ ] Depth sorting works around at least one tree and one building.
-- [ ] Foreground occlusion is readable.
-- [ ] One NPC or object can be interacted with.
-- [ ] One simple dialogue/prompt appears.
-- [ ] Test both virtual joystick and tap-to-move.
-- [ ] Runs acceptably on the target iPad.
-- [ ] Orientation/resize does not destroy the scene.
-
-### What the proof scene must NOT become
-
-Do not build the real Pornalia map during Phase 0. Do not add quests, combat, inventory, Supabase or polished art just to make the technical test look like a finished game.
-
-## 11. Decision gate after the proof scene
-
-```mermaid
-graph TD;
-    Research["Study official Phaser + reference repos"] --> Prototype["Build future isometric proof scene"];
-    Prototype --> Test["Test on iPad"];
-    Test --> Depth{"Depth + movement + touch work?"};
-    Depth -->|"No"| Adjust["Adjust map/input architecture"];
-    Adjust --> Prototype;
-    Depth -->|"Yes"| Approve["Approve isometric foundation"];
-    Approve --> Pornalia["Begin real Pornalia blockout"];
-```
-
-Only after this gate passes should the project begin building the actual world.
-
-## 12. Comira asset definition
-
-Comira remains canonically a white/warm-ivory cat with pale peach inner ears, large glossy dark eyes, compact chibi proportions, fluffy tail, muted sage-green scarf/cape, brown harness and satchel, cyan crystal pendant and Light Staff.
-
-Her target actions include idle, blink, walk, run, turn, jump, attack/cast if later required, heal/light magic, interact, explore/read map and hurt/recover.
-
-For the isometric game, character production will eventually require an additional decision: **directional sprite sheets / rendered directions** must cover enough viewing directions that Cova and Comira look natural while walking through the fixed isometric camera.
-
-Recommended proof target: at least **4-direction movement** first; evaluate 8 directions only if the visual improvement justifies the extra animation workload.
-
-## 13. Deployment architecture
-
-Historical production deployments were created from ChatGPT-local project files. The desired workflow is GitHub-first:
+The desired workflow remains GitHub-first:
 
 ```mermaid
 graph LR;
@@ -363,7 +157,6 @@ graph LR;
     Preview --> Review["Review on iPad"];
     Review --> Main["Merge to main"];
     Main --> Production["Vercel Production"];
-    Production --> Domain["the-legend-of-comira.vercel.app"];
 ```
 
 Known Vercel project metadata:
@@ -372,104 +165,41 @@ Known Vercel project metadata:
 - Project ID: `prj_Yvz8FfMCrwZAT0fqJWEo8J2RnG8y`
 - Framework metadata: **Vite**
 - Node metadata: **24.x**
-- Production domain: `https://the-legend-of-comira.vercel.app`
+- Production domain: `the-legend-of-comira.vercel.app`
 
-Before coding resumes, GitHub → Vercel must still be verified end-to-end with a harmless docs-only deployment/check.
+Historical production deployments were created from ChatGPT-local project files. The target workflow is for GitHub to become the permanent source of truth and Vercel to deploy from GitHub.
 
-## 14. Optional Supabase architecture
+## 11. Supabase
 
-Supabase remains optional. The isometric proof scene requires **no backend**.
+Supabase remains optional. The isometric proof scene requires **no backend**. Potential later uses include cloud saves, accounts, inventory persistence, collectibles and achievements. Privileged service credentials must never ship in the browser bundle.
 
-Potential later uses: cloud saves, accounts, inventory persistence, collectibles, achievements and server-managed content. Privileged service credentials must never ship in the browser bundle.
+## 12. Development phases
 
-## 15. Revised development phases
+### Current — planning and asset structure
+- Define Coral/Pornalia hierarchy.
+- Organize Cova and Comira references.
+- Preserve/decompose Pornalia reference art.
+- Document Phaser/Tiled reconstruction strategy.
+- No gameplay code.
 
-### Phase 0A — research
+### Future Phase 0 — Pornalia proof scene
+After explicit approval to code, build the tiny isometric test area inside Pornalia.
 
-- Study official Phaser isometric tilemaps/examples.
-- Study `Nulligma/phaser-isometric-test` for elevation, depth and A*.
-- Inspect RealmForge only for applicable client architecture patterns.
-- Evaluate Rex utilities only for specific needs.
-- Record licenses before reusing anything.
-- Choose joystick vs tap-to-move test design.
+### Future Phase 1 — Cova vertical slice
+Directional representation, touch movement, collisions, depth sorting, interaction and camera follow.
 
-**No gameplay code during the current README/planning stage.**
+### Future Phase 2 — Pornalia blockout
+Reconstruct the actual initial village from reusable map assets.
 
-### Phase 0B — future isometric proof scene
+### Future Phase 3+ — Coral expansion
+Only after Pornalia is established, define and add other Coral villages/regions as separate world locations.
 
-After explicit approval to begin coding, build the tiny Isometric Playground described above.
+## 13. Canonical rule going forward
 
-### Phase 1 — Cova vertical slice
+When documentation says **Coral**, it means the overall game world.
 
-- Approved isometric Cova representation.
-- Directional walk/idle animations.
-- Touch movement.
-- collisions;
-- depth sorting;
-- interaction;
-- camera follow.
+When documentation says **Pornalia**, it means the initial village inside Coral.
 
-### Phase 2 — Pornalia blockout
+When documentation says **Pornalia proof/test scene**, it means the small technical scene derived from Pornalia that will eventually validate the isometric Phaser foundation.
 
-- terrain;
-- paths;
-- plaza;
-- important buildings;
-- School of the Wind;
-- School of the Light;
-- collision/walkability metadata;
-- area transitions.
-
-### Phase 3 — exploration RPG systems
-
-- NPC interaction;
-- dialogue/reactions;
-- discoveries;
-- objectives/quests;
-- key-item inventory;
-- interiors;
-- checkpoints.
-
-### Phase 4 — visual pass
-
-- final-ish tilesets;
-- props;
-- vegetation;
-- atmosphere;
-- VFX;
-- occlusion polish;
-- touch UI polish.
-
-### Phase 5 — Comira story integration
-
-Add Comira memory/story sequences and light-themed interactions according to her canonical character specification.
-
-### Phase 6 — persistence decision
-
-Choose local browser saves or Supabase only after the real persistence requirements are known.
-
-## 16. State trace
-
-1. An early browser prototype was created from ChatGPT-local files and deployed to Vercel.
-2. The prototype used simple placeholder geometry and touch controls.
-3. Its visual/gameplay quality was rejected as the foundation for the real game.
-4. GitHub `altairrojas/the-legend-of-comira` became the intended source of truth.
-5. Cova and Comira were separated canonically; Cova is the playable dark/black cat and Comira is the white heroine.
-6. Phaser 3 was selected as the primary game framework.
-7. A previous architecture proposed Phaser + Three.js for a free-camera 3D world.
-8. **Current direction supersedes that plan:** the game is now an **isometric exploration RPG**.
-9. Phaser 3 + Tiled is now the preferred foundation for the isometric world.
-10. Three.js is no longer required for Phase 0 and is deferred unless a future proven need appears.
-11. Official Phaser isometric support and several open-source reference projects have been identified for research.
-12. No code from those projects has been adopted and no gameplay code was changed in this planning revision.
-
-## 17. Gate before coding resumes
-
-- [ ] Approve the **isometric exploration RPG** direction.
-- [ ] Approve Phaser 3 + Tiled as the first proof architecture.
-- [ ] Decide whether the visual target is pixel-art, illustrated HD sprites, or pre-rendered 3D-to-2D sprites.
-- [ ] Review the reference-project shortlist and licenses.
-- [ ] Define Cova's minimum directional animation set.
-- [ ] Define the tiny proof-scene layout.
-- [ ] Verify GitHub → Vercel deployment end-to-end.
-- [ ] Only then authorize creation of the Phase 0B feature branch and code.
+Do not use Pornalia and Coral interchangeably.
