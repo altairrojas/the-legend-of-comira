@@ -1,6 +1,6 @@
 # Comira — character asset specification
 
-Comira is the **white cat heroine** shown in the approved character sheet. She is a distinct character from **Koba**, the black cat. Koba must never be treated as a recolor, skin, alternate form, or version of Comira.
+Comira is the **white cat heroine** shown in the approved character references. She is a distinct character from **Cova**, the dark/black playable cat. Cova must never be treated as a recolor, skin, alternate form, or version of Comira.
 
 ## Canonical visual identity
 
@@ -9,154 +9,124 @@ Comira is the **white cat heroine** shown in the approved character sheet. She i
 - Inner ears: pale peach-pink.
 - Eyes: very large, rounded, glossy black/dark brown with bright highlights.
 - Nose: tiny dark nose.
-- Face: rounded, friendly; small mouth; subtle peach blush on cheeks.
-- Body: compact chibi proportions, short legs/paws, rounded torso, large head.
+- Face: rounded and friendly, with a small mouth and subtle peach blush.
+- Body: compact chibi proportions, short visible legs/paws, rounded torso and large head.
 - Tail: fluffy white tail.
-- Scarf/cape: muted sage green, wrapped around neck and draping behind the shoulders.
-- Harness: brown diagonal leather strap across torso.
+- Scarf/cape: muted sage green around the neck and shoulders.
+- Harness: brown diagonal leather strap across the torso.
 - Bag: small brown side satchel.
-- Pendant: faceted cyan/light-blue crystal hanging at the chest.
+- Pendant: faceted cyan/light-blue crystal at the chest.
 - Weapon: slender brown Light Staff with a blue crystal head and small golden accents.
 - Element: Light / solar visual language.
 - Personality expressed by design: kind, brave, helpful, curious and gentle.
 
-## Approved views from reference
+## Approved isometric master
 
-The reference sheet establishes at least:
+The approved master package has been extracted into:
 
-1. Front.
-2. Side/profile.
-3. Back.
+`docs/assets/characters/comira/reference/isometric-master/`
 
-The runtime model/sprite set must preserve the same silhouette, scarf, harness, bag, pendant and tail placement from every angle.
+It contains ten individually reviewable WebP reference slices plus a machine-readable `manifest.json`.
+
+Primary movement / pose references:
+
+- `01_isometric_views.webp`
+- `02_walk_side.webp`
+- `03_walk_diagonal.webp`
+- `05_actions.webp`
+
+Separate art references:
+
+- expressions;
+- light VFX;
+- healing / shadow VFX;
+- UI icons;
+- palette;
+- technical sprite notes.
+
+These files are **canonical reference assets, not final Phaser animation atlases**.
 
 ## Expressions
 
-Minimum expression set derived from the sheet:
+Minimum expression set derived from the approved material:
 
-- happy / smiling
-- surprised
-- thoughtful
-- sad
-- angry
+- happy / smiling;
+- surprised;
+- thoughtful;
+- sad;
+- angry.
 
 Useful production additions, while preserving the same face design:
 
-- blink
-- determined
-- hurt
-- relieved
-- sleepy
+- blink;
+- determined;
+- hurt;
+- relieved;
+- sleepy.
 
-## Actions / animation requirements
+## Animation targets
 
-The sheet explicitly establishes these actions:
+Future runtime animation coverage should include:
 
-- attack with Light Staff
-- heal / light magic
-- jump
-- explore / read map
+- idle;
+- blink;
+- walk;
+- run;
+- turn;
+- jump start / air / land;
+- attack staff if required by gameplay;
+- cast heal / light magic;
+- interact;
+- map read / explore;
+- hurt;
+- recover.
 
-Runtime animation set should include:
+Because the game now uses a fixed isometric viewpoint, production must decide and document the required directional set before authoring final locomotion atlases. Start with **4-direction coverage** in the technical proof; move to 8 directions only if the visual gain justifies the additional animation work.
 
-- idle
-- blink
-- walk
-- run
-- turn
-- jump_start
-- jump_air
-- jump_land
-- attack_staff
-- cast_heal
-- interact
-- map_read
-- hurt
-- recover
+## Props and UI targets
 
-## Props and UI assets
+Character-specific props include:
 
-Character-specific props visible in the sheet:
+- Light Staff;
+- crystal pendant / Solar Amulet;
+- sage scarf/cape;
+- health potion;
+- map;
+- brown satchel.
 
-- Light Staff
-- Solar Amulet / crystal pendant
-- Light Cape / sage scarf
-- health potion
-- map of Comira
-- brown satchel
-
-Recommended UI assets:
-
-- portrait
-- circular avatar
-- paw icon
-- light-element icon
-- health-heart icon
-- potion icon
-- map icon
-- crystal/amulet icon
-- staff icon
+Potential UI assets include portrait/avatar, paw icon, light-element icon, health icon, potion icon, map icon, crystal/amulet icon and staff icon.
 
 ## VFX language
 
 Comira's effects should use soft luminous shapes rather than harsh explosions:
 
-- warm golden-white attack glow
-- pale green/cyan healing rings and sparkles
-- tiny star / diamond particles
-- blue crystal glow on staff and pendant
+- warm golden-white attack glow;
+- pale green/cyan healing rings and sparkles;
+- tiny star / diamond particles;
+- blue crystal glow on staff and pendant.
 
-## Asset production tree
+## Planned runtime tree
 
 ```text
 public/assets/characters/comira/
-├── model/
-│   ├── comira.glb
-│   └── textures/
-├── animations/
-│   └── comira-animations.glb
-├── sprites/
-│   ├── comira-idle.png
-│   ├── comira-walk.png
-│   ├── comira-run.png
-│   ├── comira-jump.png
-│   ├── comira-attack.png
-│   ├── comira-heal.png
-│   └── comira-hurt.png
+├── atlases/
+│   ├── locomotion/
+│   └── actions/
 ├── portraits/
-│   ├── comira-portrait.png
-│   └── comira-avatar.png
 ├── expressions/
-│   ├── happy.png
-│   ├── surprised.png
-│   ├── thoughtful.png
-│   ├── sad.png
-│   └── angry.png
 ├── props/
-│   ├── light-staff.glb
-│   ├── satchel.glb
-│   ├── pendant.glb
-│   └── map.png
 ├── vfx/
-│   ├── light-attack.png
-│   ├── heal-ring.png
-│   └── sparkle.png
 └── ui/
-    ├── comira-icon.png
-    ├── paw-icon.png
-    ├── light-icon.png
-    ├── staff-icon.png
-    └── pendant-icon.png
 ```
 
-These are **target runtime assets**. This document does not claim the GLB, animation or sprite files already exist.
+This is a **target runtime structure**. It does not claim those production files already exist.
 
-## Koba separation rule
+## Cova separation rule
 
-Koba belongs in a completely separate tree:
+Cova belongs in a completely separate tree:
 
 ```text
-public/assets/characters/koba/
+public/assets/characters/cova/
 ```
 
-Koba has independent design, lore, models, sprites, animations, props and UI. Do not create `comira-black`, `black-comira`, `comira-dark`, or any equivalent alternate-skin naming.
+Cova has independent design, lore, sprites, animations, props and UI. Never create names such as `comira-black`, `black-comira`, `comira-dark`, or use Cova assets as Comira variants.
