@@ -1,0 +1,13 @@
+{
+  "archive": "comira-isometric-master-slices.zip",
+  "mime_type": "application/zip",
+  "encoding": "base64",
+  "base64_file": "comira-isometric-master-slices.zip.base64.txt",
+  "sha256_zip": "3c9d9ca92e417b3ff2a854e8e3e39ea65581f812d55f418d566e252723f1366b",
+  "contains": {
+    "image_format": "image/webp",
+    "image_count": 10,
+    "folders": ["images/", "manifest.json", "README.md"]
+  },
+  "purpose": "Transport bundle for the ten separate Comira reference slices. Decode Base64 to ZIP, then extract."
+}
