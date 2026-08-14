@@ -3,104 +3,132 @@
   "asset_role": "approved-master-derived-reference-slices",
   "source_file": "wide_clean_character_sprite_sheet_illustration_on.png",
   "source_dimensions": {"width": 1536, "height": 1024},
-  "canonical_source": "approved PNG master sheet",
-  "repository_storage": {
-    "format": "Base64 text containing WebP image bytes",
-    "mime_type": "image/webp",
-    "quality": 88,
-    "decode_rule": "Base64-decode bytes and save using .webp; MIME must remain image/webp",
-    "runtime_policy": "reference-only; do not use these slices directly as the movable Phaser character"
+  "canonical_source": {
+    "format": "image/png",
+    "status": "approved visual source of truth",
+    "note": "The full approved master defines appearance. Split files are derivatives for focused reference and transport."
   },
+  "repository_storage": {
+    "format": "Base64 text containing optimized WebP image bytes",
+    "mime_type": "image/webp",
+    "encoding": "base64",
+    "decoded_extension": ".webp",
+    "quality": 78,
+    "max_dimension": 512,
+    "decode_rule": "Base64-decode the text to bytes, verify RIFF/WEBP and SHA-256, then treat the result as image/webp.",
+    "runtime_policy": "reference-only; do not use these reference panels directly as the movable Phaser player sprite"
+  },
+  "production_rule": "Future Phaser locomotion must use dedicated transparent directional sprite/atlas assets authored from the locomotion reference slices. Expressions, VFX, UI and palette remain separate asset families.",
   "items": [
     {
       "id": "01_isometric_views",
       "source_crop_xyxy": [0, 90, 800, 365],
-      "dimensions": {"width": 800, "height": 275},
+      "source_dimensions": {"width": 800, "height": 275},
       "file": "base64/01_isometric_views.webp.base64.txt",
-      "sha256": "d2bc42ade0eb31d40a0ccb44ded413b28620fe4506b47341c4c808b80b8d17c7",
-      "purpose": "Canonical isometric facing/reference views for proportions, silhouette, scarf, satchel, pendant and staff.",
-      "phaser_use": "Source reference for future directional player sprites/atlas frames."
+      "sha256_decoded_webp": "fc3eb4ed96c4e306de4703c3744f64472bef1b106218e3d6e99dbc877c328559",
+      "purpose": "Canonical isometric facing and proportion reference: silhouette, scarf, satchel, pendant and staff.",
+      "when_to_use": "When designing directional idle/walk frames and checking Comira proportions from the isometric camera.",
+      "phaser_target": "future directional player atlas",
+      "runtime_use": "reference-only"
     },
     {
       "id": "02_walk_side",
       "source_crop_xyxy": [0, 350, 795, 525],
-      "dimensions": {"width": 795, "height": 175},
+      "source_dimensions": {"width": 795, "height": 175},
       "file": "base64/02_walk_side.webp.base64.txt",
-      "sha256": "9a98e19fc888c5522901d60d38610b56383742464d36e38bac92943b41f20d4d",
+      "sha256_decoded_webp": "582fd0d3dc1c49cba96035d9835a4a5c93a325f371408656162bd30ced7718d4",
       "purpose": "Side-direction locomotion and frame-timing reference.",
-      "phaser_use": "Reference for future side directional walk/idle animation production."
+      "when_to_use": "When producing side-facing walk/idle animation frames.",
+      "phaser_target": "future directional locomotion atlas",
+      "runtime_use": "reference-only"
     },
     {
       "id": "03_walk_diagonal",
       "source_crop_xyxy": [0, 510, 795, 675],
-      "dimensions": {"width": 795, "height": 165},
+      "source_dimensions": {"width": 795, "height": 165},
       "file": "base64/03_walk_diagonal.webp.base64.txt",
-      "sha256": "a15b0d97b56c0d9bb94ccb9f258546a454e89739b8211d67e75af339c5dbad65",
+      "sha256_decoded_webp": "019953665dda942efbab6d99ba93a3845faa0e9e839d109a08811e1d1d314da9",
       "purpose": "Diagonal/isometric locomotion and direction-coverage reference.",
-      "phaser_use": "Primary reference for future diagonal movement frames in the isometric map."
+      "when_to_use": "Primary reference when authoring movement aligned with the isometric map axes.",
+      "phaser_target": "future diagonal locomotion atlas",
+      "runtime_use": "reference-only"
     },
     {
       "id": "04_expressions",
       "source_crop_xyxy": [0, 655, 795, 795],
-      "dimensions": {"width": 795, "height": 140},
+      "source_dimensions": {"width": 795, "height": 140},
       "file": "base64/04_expressions.webp.base64.txt",
-      "sha256": "f45ccae5ecdb323f90a4681fbe362f49c3cafc8e20be18cc5628bec530877d59",
+      "sha256_decoded_webp": "e80104bb3c9a04969bb77bde6af6305c73918cefb800eb47ff4ba3eec8b2072e",
       "purpose": "Facial-expression vocabulary reference.",
-      "phaser_use": "Dialogue portraits or later face-state reference; not locomotion."
+      "when_to_use": "Dialogue portraits, reaction states and future expression production; never for movement frames.",
+      "phaser_target": "future portrait/expression atlas",
+      "runtime_use": "reference-only"
     },
     {
       "id": "05_actions",
       "source_crop_xyxy": [0, 780, 830, 1024],
-      "dimensions": {"width": 830, "height": 244},
+      "source_dimensions": {"width": 830, "height": 244},
       "file": "base64/05_actions.webp.base64.txt",
-      "sha256": "79aa4b1ee3d62794966c5f30929494da18655cd9b0e0ca7c3212af0a07f2ec80",
+      "sha256_decoded_webp": "873421037b3874f8276ef1ba8bfc7c9754996f330e66f9e18d132f6a85f2cfc0",
       "purpose": "Idle/sit, jump, staff attack, heal/cast and related action-pose reference.",
-      "phaser_use": "Reference for later action animation atlases."
+      "when_to_use": "When producing non-locomotion gameplay animation clips.",
+      "phaser_target": "future action-animation atlas",
+      "runtime_use": "reference-only"
     },
     {
       "id": "06_vfx_light",
       "source_crop_xyxy": [775, 90, 1125, 510],
-      "dimensions": {"width": 350, "height": 420},
+      "source_dimensions": {"width": 350, "height": 420},
       "file": "base64/06_vfx_light.webp.base64.txt",
-      "sha256": "9d1c21b0526a311dcc4b3bfa00b5259259c801d5dfa9ad0705412ceb634953c8",
-      "purpose": "Light-element VFX, attack glow and crystal/staff effects.",
-      "phaser_use": "Reference for separate VFX textures/particles."
+      "sha256_decoded_webp": "cd3735f9a088ae2457e8d280b759002bab8b5ca0dd97295713f9a7ccb8a95767",
+      "purpose": "Light-element attack glow and crystal/staff VFX reference.",
+      "when_to_use": "When creating separate particle/effect textures for Comira's Light abilities.",
+      "phaser_target": "future VFX textures/particles",
+      "runtime_use": "reference-only"
     },
     {
       "id": "07_vfx_heal_and_shadow",
       "source_crop_xyxy": [1110, 90, 1536, 510],
-      "dimensions": {"width": 426, "height": 420},
+      "source_dimensions": {"width": 426, "height": 420},
       "file": "base64/07_vfx_heal_and_shadow.webp.base64.txt",
-      "sha256": "9c7f39b93c5df7fb9839f9b5530ff7e9c86eb08e6f1b1b94ed7e9c207bcd4389",
-      "purpose": "Healing VFX, contact shadow and related effects.",
-      "phaser_use": "Reference for separate VFX/shadow assets."
+      "sha256_decoded_webp": "9acfe00513e37a958d06a4b1492b2dc499d9da3efb95c018393e9985852f924a",
+      "purpose": "Healing VFX and contact-shadow reference.",
+      "when_to_use": "When authoring healing particles/rings and the separate ground/contact shadow asset.",
+      "phaser_target": "future VFX and shadow assets",
+      "runtime_use": "reference-only"
     },
     {
       "id": "08_ui_icons",
       "source_crop_xyxy": [800, 500, 1536, 800],
-      "dimensions": {"width": 736, "height": 300},
+      "source_dimensions": {"width": 736, "height": 300},
       "file": "base64/08_ui_icons.webp.base64.txt",
-      "sha256": "d38c4df9c7bf87f5c7a2e902514ea91a9c5a9ff798b87a4dbd505d8a7421178a",
+      "sha256_decoded_webp": "a772861040970a1fbdffc8263740b480dc9e6b4269f505b03f81042a5f56306c",
       "purpose": "Comira-specific UI iconography and HUD portrait language.",
-      "phaser_use": "Reference for future UI atlas/icons; never locomotion."
+      "when_to_use": "When building later UI/HUD icons; never as character locomotion.",
+      "phaser_target": "future UI atlas",
+      "runtime_use": "reference-only"
     },
     {
       "id": "09_palette",
       "source_crop_xyxy": [820, 790, 1120, 1024],
-      "dimensions": {"width": 300, "height": 234},
+      "source_dimensions": {"width": 300, "height": 234},
       "file": "base64/09_palette.webp.base64.txt",
-      "sha256": "1f6032a728249357a78ab68db9682182e0b8e465f106017ea7e24a638f68d442",
-      "purpose": "Canonical color palette reference.",
-      "phaser_use": "Art-production reference only."
+      "sha256_decoded_webp": "25d96ed3d2cba2c1bf63cf0754e5bc468671275171adda6ace67a69b51f07ff2",
+      "purpose": "Canonical color-palette reference.",
+      "when_to_use": "During art production and consistency checks.",
+      "phaser_target": "none; art documentation",
+      "runtime_use": "documentation-only"
     },
     {
       "id": "10_sprite_technical_notes",
       "source_crop_xyxy": [1110, 790, 1536, 1024],
-      "dimensions": {"width": 426, "height": 234},
+      "source_dimensions": {"width": 426, "height": 234},
       "file": "base64/10_sprite_technical_notes.webp.base64.txt",
-      "sha256": "04327b2c19b8a2fdece2761f8f7173101e39c19a8a5978e8e310295f38ee5f12",
+      "sha256_decoded_webp": "dee224207b6acfc91f33dd23c0aba2df9ac3840f99ac5a8dde5ba305779b7405",
       "purpose": "Technical/layout notes from the approved master.",
-      "phaser_use": "Documentation/reference only."
+      "when_to_use": "When preparing production sprite sheets/atlases and reviewing implementation constraints.",
+      "phaser_target": "none; technical documentation",
+      "runtime_use": "documentation-only"
     }
   ]
 }
