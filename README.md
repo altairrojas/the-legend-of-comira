@@ -1,202 +1,108 @@
 # The Legend of Comira
 
-> **Planning pass only.** This revision does **not** add or change game code. It defines the target architecture, project routes, deployment workflow, integrations, current status, and recovery plan before implementation resumes.
+> Planning document only. This revision does **not** add or change game code.
 
 ## 1. Project goal
 
-**The Legend of Comira** is a browser game centered on **Cova** and the world of **Pornalia**. The current production site is an early prototype and is **not** considered the technical foundation for the next version.
+**The Legend of Comira** is a touch-first browser adventure set in **Pornalia**.
 
-The next version should be designed first for **touch devices / iPad**, while still supporting desktop controls later.
-
-Key story / game constraints already established:
-
-- Cova is the playable character.
+- **Cova** is the playable character.
 - Cova does not speak.
-- Comira is lost during the story and later appears through memories.
-- Pornalia is an original fantasy village / world.
-- Cova must use the final dark gray / white tabby design, not the old brown placeholder.
-- Character legs / paws must be visible and animated.
-- The world should feel explorable, not like a static slideshow.
+- **Comira** is a separate white-cat heroine who appears in story/memory sequences.
+- Pornalia is an original fantasy village/world.
+- The old Vercel build is only an early prototype and is not the visual or technical foundation for the rebuild.
 
----
+## 2. Canonical character naming
 
-## 2. Current status
+### Cova
 
-### GitHub
+Cova is the dark/black cat character used as the playable hero. All files, folders, IDs and documentation must use the spelling **Cova**.
 
-- Repository: `altairrojas/the-legend-of-comira`
-- Default branch: `main`
-- GitHub is now writable from ChatGPT through the installed ChatGPT GitHub App.
-- GitHub is the intended **source of truth** from this point forward.
+### Comira
 
-### Vercel
+Comira is the approved **white cat heroine**. She is not a skin or recolor of Cova.
 
-- Project: `the-legend-of-comira`
-- Project ID: `prj_Yvz8FfMCrwZAT0fqJWEo8J2RnG8y`
-- Existing framework metadata: **Vite**
-- Existing Node runtime metadata: **24.x**
-- Production domain: `https://the-legend-of-comira.vercel.app`
-- Existing production deployments: two historical deployments, both `READY`.
-- These historical deployments were created from ChatGPT-local project files, **not from GitHub**.
+Her detailed asset specification lives at:
 
-### GitHub → Vercel connection verification
+`docs/assets/characters/comira/README.md`
 
-The GitHub App is reported as installed for Vercel, but the automatic Git-to-Vercel project link is **not yet proven end-to-end**.
+Cova's separate character documentation lives at:
 
-Evidence checked during this planning pass:
-
-1. A new README commit was successfully created in GitHub.
-2. GitHub shows no Vercel status/check on that commit.
-3. Vercel shows no new deployment after that README commit.
-4. The two existing Vercel deployments have empty Git metadata because they came from the earlier local-file deployment path.
-
-**Conclusion:** GitHub access works, and the Vercel project works, but before game coding resumes we must complete one explicit integration test: make a harmless documentation-only commit and confirm that Vercel creates a Preview or Production deployment from GitHub. Until that happens, the README should describe the connection as **installed/configured but not yet end-to-end verified**.
-
-### Supabase
-
-Supabase is available to this project if persistence is needed later.
-
-- ChatGPT can access the connected Supabase account.
-- One Supabase project is currently visible: `altairrojas's Project`.
-- Current Supabase project status observed: `INACTIVE`.
-- Database engine: PostgreSQL 17.
-- Region: `ca-central-1`.
-- The game does **not** currently depend on Supabase.
-- The owner reports that the Supabase GitHub App is also installed. The current GitHub connector does not expose installed-app inventory, so that specific GitHub-side installation cannot be independently verified here.
-
-Supabase should remain **optional** until we actually need saves, accounts, cloud inventory, achievements, multiplayer state, analytics, or content managed outside the build.
-
----
+`docs/assets/characters/cova/README.md`
 
 ## 3. Target technology stack
 
-### Core stack
-
-| Layer | Technology | Decision |
+| Layer | Technology | Purpose |
 |---|---|---|
-| Language | **TypeScript** | Preferred for safer game-state, asset, scene, and input code |
-| Game framework | **Phaser 3** | Main game framework: scene lifecycle, loaders, input, tweens, audio, 2D UI, collision helpers |
-| 3D renderer | **Three.js** | Required for real 3D world rendering because Phaser itself is a 2D framework |
-| Bundler / dev server | **Vite** | Already compatible with the existing Vercel project and ideal for Phaser / Three ES modules |
-| Browser shell | HTML + CSS | Minimal wrapper around the game canvases; no UI framework by default |
-| Package manager | npm | Simplest path with Vercel / Vite |
-| Hosting | **Vercel** | Preview + Production deployments |
+| Language | **TypeScript** | Safer game-state, scene, input and asset code |
+| Game framework | **Phaser 3** | Game lifecycle, input, HUD, audio, loading and orchestration |
+| 3D renderer | **Three.js** | 3D world, models, lighting and camera |
+| Bundler / dev server | **Vite** | Development and production build pipeline |
+| Browser shell | **HTML + CSS** | Minimal wrapper around the game canvas/layers |
+| Package manager | **npm** | Dependency and build management |
+| Hosting | **Vercel** | Preview and production deployments |
 | Version control | **GitHub** | Permanent source of truth |
-| Optional backend | **Supabase** | Postgres, Auth, Storage, Realtime only when a game feature requires them |
+| Optional backend | **Supabase** | Saves, accounts, storage or realtime only when needed |
 
 ### Why Phaser + Three.js
 
-Phaser is intentionally kept as the **game framework** because it already provides mature systems for scenes, loading, input, animation/tweens, audio, game loops, cameras for 2D layers, and browser/mobile support.
-
-However, Phaser's official documentation states that Phaser is a **2D game framework** and does not provide built-in 3D rendering or 3D physics. Therefore the target architecture uses:
-
-- **Phaser** for game flow, input, HUD, menus, state, 2D effects, audio, and orchestration.
-- **Three.js** for the actual 3D world, models, lighting, 3D camera, and scene graph.
-
-This avoids pretending Phaser alone is a 3D engine while still getting the benefits requested from Phaser.
-
-### Deliberate non-decisions
-
-These are **not** selected yet:
-
-- No React unless the project later needs complex non-game UI.
-- No multiplayer architecture yet.
-- No physics engine beyond Phaser helpers / basic Three collision planning until movement requirements are tested.
-- No Supabase dependency in the first playable rebuild.
-- No third-party open-world starter repository has been adopted yet. Reusable GitHub utilities should be evaluated after the minimal architecture works.
-
----
+Phaser is the main game framework because it already provides scene management, loading, input, tweens, audio and browser/mobile game utilities. Three.js supplies the real 3D rendering layer for Pornalia, characters, lighting and camera.
 
 ## 4. Runtime architecture
 
 ```mermaid
-flowchart TB
-    User[Player: iPad / Browser]
-
-    subgraph Browser[Browser]
-      Phaser[Phaser 3\nGame lifecycle + scenes + input + HUD + audio]
-      Three[Three.js\n3D world + models + lights + 3D camera]
-      Shared[Shared game state\nposition / quests / interactions]
-    end
-
-    User -->|touch / keyboard later| Phaser
-    Phaser <--> Shared
-    Three <--> Shared
-    Phaser -->|orchestrates world state| Three
-
-    subgraph OptionalBackend[Optional backend - only when needed]
-      Supabase[(Supabase\nPostgres / Auth / Storage / Realtime)]
-    end
-
-    Shared -. save/load later .-> Supabase
+graph TD;
+    Player["Player on iPad or browser"] --> Phaser["Phaser 3<br/>Input, game flow, HUD, audio"];
+    Phaser --> State["Shared game state"];
+    State --> Phaser;
+    State --> Three["Three.js<br/>3D world, models, lights, camera"];
+    Three --> State;
+    State -. "save/load later" .-> Supabase["Supabase<br/>Optional backend"];
 ```
 
-### Canvas strategy
+### Rendering plan
 
-Planned rendering model:
+- Three.js owns the main 3D world.
+- Phaser manages the game lifecycle and may render transparent 2D overlays for touch controls, HUD, prompts, fades and dialogue.
+- Both layers use one authoritative shared state so the character model cannot visually detach from movement/state.
 
-- Three.js owns the main 3D world canvas.
-- Phaser owns game lifecycle and may render a transparent 2D overlay canvas for HUD, prompts, dialogue cards, touch controls, fades, and visual effects.
-- Both layers share a single authoritative game-state module so Cova cannot visually separate from the movement state.
-
-A very small proof-of-concept must validate this integration **before** building Pornalia.
-
----
-
-## 5. Game route / scene map
-
-For the first rebuild, browser routing should stay intentionally simple. This is a game, not a multi-page website.
-
-### Web routes
-
-| Route | Purpose | Phase |
-|---|---|---|
-| `/` | Loads the application and starts the Phaser bootstrap | Required |
-| `/*` | Optional SPA fallback to `/index.html` if deep links are introduced later | Later |
-
-No public API route is required for the first playable version.
-
-### Internal game scenes
+## 5. Internal game flow
 
 ```mermaid
-stateDiagram-v2
-    [*] --> Boot
-    Boot --> Preload
-    Preload --> Title
-    Title --> Pornalia
-    Pornalia --> Memory
-    Memory --> Pornalia
-    Pornalia --> Pause
-    Pause --> Pornalia
-    Pornalia --> [*]
+graph TD;
+    Start["Game start"] --> Boot["BootScene"];
+    Boot --> Preload["PreloadScene"];
+    Preload --> Title["TitleScene"];
+    Title --> Pornalia["PornaliaScene"];
+    Pornalia --> Memory["MemoryScene"];
+    Memory --> Pornalia;
+    Pornalia --> Pause["PauseScene"];
+    Pause --> Pornalia;
 ```
 
-Planned responsibilities:
+Scene responsibilities:
 
-- **BootScene** — device capabilities, renderer checks, basic configuration.
-- **PreloadScene** — load Cova, environment, textures, UI, audio.
-- **TitleScene** — title screen / start / continue later.
+- **BootScene** — device/render capability checks and basic configuration.
+- **PreloadScene** — character, world, UI and audio assets.
+- **TitleScene** — start/continue flow.
 - **PornaliaScene** — main playable world.
-- **MemoryScene** — Comira memory sequences.
-- **PauseScene** — settings / resume / accessibility / touch controls.
+- **MemoryScene** — Comira story/memory sequences.
+- **PauseScene** — resume, settings and touch-control options.
 
-Additional worlds should become separate scenes or world modules only after Pornalia is stable.
-
----
-
-## 6. Planned repository routes
-
-> These paths are the **target structure**. Most do not exist yet. Do not interpret this section as implemented code.
+## 6. Planned repository structure
 
 ```text
 the-legend-of-comira/
 ├── README.md
 ├── docs/
-│   ├── assets/
-│   │   ├── comira-blanca-reference.svg
-│   │   └── cova-oscuro-atigrado-reference.svg
-│   ├── architecture/
-│   └── decisions/
+│   └── assets/
+│       ├── characters/
+│       │   ├── comira/
+│       │   │   └── README.md
+│       │   └── cova/
+│       │       └── README.md
+│       ├── comira-blanca-reference.svg
+│       └── cova-oscuro-atigrado-reference.svg
 ├── public/
 │   └── assets/
 │       ├── characters/
@@ -234,140 +140,139 @@ the-legend-of-comira/
     └── e2e/
 ```
 
-### Asset conventions
+## 7. Comira asset definition
 
-- 3D characters / world props: prefer **glTF / GLB**.
-- 2D textures / UI: PNG or WebP.
-- Audio: browser-friendly formats with at least one broadly supported fallback.
-- Reference art belongs in `docs/assets`, not in the runtime build unless the game actually uses it.
+Comira's approved sheet defines:
 
----
+- white/warm-ivory fur;
+- pale peach inner ears;
+- large glossy dark eyes;
+- small nose and rounded friendly face;
+- subtle cheek blush;
+- compact chibi proportions with visible paws/legs;
+- fluffy white tail;
+- muted sage-green scarf/cape;
+- brown diagonal harness;
+- small brown satchel;
+- cyan/light-blue crystal pendant;
+- Light Staff with brown shaft, blue crystal head and gold accents;
+- light/solar visual language.
 
-## 7. Visual references currently preserved in GitHub
+Minimum expressions:
 
-### Comira — white reference
+- happy;
+- surprised;
+- thoughtful;
+- sad;
+- angry.
 
-![Comira white reference](docs/assets/comira-blanca-reference.svg)
+Minimum action/animation targets:
 
-### Dark / tabby character reference currently available (Cova)
+- idle;
+- blink;
+- walk;
+- run;
+- turn;
+- jump;
+- attack with staff;
+- heal/cast light magic;
+- interact;
+- read/explore map;
+- hurt/recover.
 
-![Cova dark tabby reference](docs/assets/cova-oscuro-atigrado-reference.svg)
+Target runtime asset tree:
 
-> Note: the current recovered asset set contains a clear **white Comira** reference and a clear **dark/tabby Cova** reference. A separate dedicated **black Comira** sheet was not found in the recovered local files, so this README does not pretend one exists. If the intended second image is a different Comira reference, it should be added when identified.
+```text
+public/assets/characters/comira/
+├── model/
+├── animations/
+├── sprites/
+├── portraits/
+├── expressions/
+├── props/
+├── vfx/
+└── ui/
+```
 
----
+Reference art stays under `docs/assets`; it should not silently become a runtime texture.
 
 ## 8. Deployment architecture
 
-### Desired final flow
+Historical production deployments were created from ChatGPT-local project files. The desired workflow is now GitHub-first:
 
 ```mermaid
-flowchart LR
-    Dev[ChatGPT / developer work]
-    GH[GitHub\naltairrojas/the-legend-of-comira]
-    PR[Feature branch / Pull Request]
-    VP[Vercel Preview]
-    Main[main]
-    Prod[Vercel Production]
-    Domain[the-legend-of-comira.vercel.app]
-
-    Dev --> GH
-    GH --> PR
-    PR -->|push / update| VP
-    VP -->|test on iPad + review| Main
-    Main -->|automatic Git deployment| Prod
-    Prod --> Domain
+graph LR;
+    Work["Development work"] --> GitHub["GitHub<br/>altairrojas/the-legend-of-comira"];
+    GitHub --> Preview["Vercel Preview"];
+    Preview --> Review["Review on iPad"];
+    Review --> Main["Merge to main"];
+    Main --> Production["Vercel Production"];
+    Production --> Domain["the-legend-of-comira.vercel.app"];
 ```
 
-### Intended Vercel configuration
+Known Vercel project metadata:
 
-- Existing Vercel project should be reused: **do not create a second production project unless migration requires it**.
-- Framework preset: Vite.
-- Production branch: `main`.
-- Build command: use the project's package script for Vite build once code exists.
-- Output directory: Vite default `dist` unless deliberately changed.
-- Preview deployments: every feature branch / PR.
-- Production deployment: `main` only.
-- Public production domain remains `the-legend-of-comira.vercel.app`.
+- Project: `the-legend-of-comira`
+- Project ID: `prj_Yvz8FfMCrwZAT0fqJWEo8J2RnG8y`
+- Framework metadata: **Vite**
+- Node metadata: **24.x**
+- Production domain: `https://the-legend-of-comira.vercel.app`
 
-### GitHub / Vercel verification gate
+### GitHub → Vercel verification gate
 
-Before coding the rebuild:
+Before coding resumes:
 
-1. Confirm the Vercel Git settings point specifically to `altairrojas/the-legend-of-comira`.
+1. Confirm Vercel Git settings point to `altairrojas/the-legend-of-comira`.
 2. Confirm production branch is `main`.
-3. Make a docs-only commit.
-4. Confirm Vercel creates a Git-sourced deployment.
-5. Confirm GitHub receives a Vercel deployment/check result.
-6. Confirm the existing custom `.vercel.app` domain remains on the same Vercel project.
+3. Make a harmless docs-only commit.
+4. Confirm Vercel creates a Git-sourced preview or production deployment.
+5. Confirm GitHub receives the Vercel deployment/check result.
+6. Confirm the existing `.vercel.app` production domain remains attached to the same Vercel project.
 
-Only after all six checks pass should GitHub → Vercel be considered fully verified.
-
----
+Until those checks pass, the automatic GitHub → Vercel link is considered **configured but not end-to-end verified**.
 
 ## 9. Optional Supabase architecture
 
 ```mermaid
-flowchart LR
-    Game[Game client]
-    SDK[supabase-js]
-    Auth[Supabase Auth]
-    DB[(Postgres)]
-    Storage[Supabase Storage]
-    RT[Realtime]
-
-    Game -. only when needed .-> SDK
-    SDK --> Auth
-    SDK --> DB
-    SDK --> Storage
-    SDK --> RT
+graph LR;
+    Game["Game client"] -. "only when needed" .-> SDK["Supabase client SDK"];
+    SDK --> Auth["Auth"];
+    SDK --> Database["Postgres"];
+    SDK --> Storage["Storage"];
+    SDK --> Realtime["Realtime"];
 ```
 
-Potential future uses:
-
-- Save slots / checkpoints.
-- Player account / cloud saves.
-- Inventory / collectibles.
-- Achievements.
-- Downloadable or server-managed game content.
-- Realtime multiplayer features, if ever approved.
-
-Security rule for future implementation: browser code may use a **publishable** Supabase key, but privileged server/service credentials must never be shipped in the client bundle.
-
----
+Potential future uses include cloud saves, accounts, inventory, collectibles, achievements, server-managed content and realtime features. Privileged service credentials must never be shipped in the browser bundle.
 
 ## 10. Development phases
 
-### Phase 0 — Architecture proof
+### Phase 0 — Phaser + Three proof
 
-No Pornalia build yet.
+Prove:
 
-Goal: prove that Phaser + Three.js can cooperate cleanly on iPad.
-
-Acceptance criteria:
-
-- Touch input works.
-- One simple 3D character can move.
-- Camera can orbit / follow without detaching the model.
-- Phaser HUD overlays correctly.
-- Stable frame rate on the target iPad.
-- Resize / orientation change does not break the game.
+- touch input on iPad;
+- one moving 3D character;
+- camera follow/orbit;
+- Phaser HUD overlay;
+- stable resize/orientation handling;
+- acceptable performance.
 
 ### Phase 1 — Cova vertical slice
 
-- Replace placeholder with the approved Cova model.
-- Proper body, four paws / legs, tail, cape, face, and equipment.
-- Idle, walk, turn, and stop animations.
-- Touch joystick / directional controls.
-- Camera follow + swipe orbit.
+- Approved Cova model.
+- Visible paws/legs.
+- Tail/cape/equipment.
+- Idle, walk, turn and stop animations.
+- Touch controls.
+- Camera follow and swipe orbit.
 
 ### Phase 2 — Pornalia blockout
 
 - Terrain and paths.
-- Major landmarks only.
+- Major landmarks.
 - Collision boundaries.
 - Camera constraints.
-- Basic interactable doors / signs.
+- Basic interactions.
 
 ### Phase 3 — Pornalia visual pass
 
@@ -375,108 +280,54 @@ Acceptance criteria:
 - School of the Wind.
 - School of the Light.
 - Plaza.
-- Nature, props, lighting, atmosphere.
-- Mui / Corìo references later, after core play is stable.
+- Nature, props, lighting and atmosphere.
 
-### Phase 4 — Story / memories
+### Phase 4 — Comira story integration
 
-- Comira memory scenes.
-- Trigger system.
-- Non-verbal Cova reactions.
-- Save / checkpoint requirements evaluated here.
+Build Comira from her canonical white-cat specification and then add her story/memory sequences, Light Staff interactions and VFX.
 
 ### Phase 5 — Persistence decision
 
-At this point decide whether local browser saves are enough or Supabase is justified.
-
----
+Choose local browser saves or Supabase only after gameplay requirements are known.
 
 ## 11. Git workflow
 
 ```mermaid
-gitGraph
-    commit id: "docs/game-plan"
-    branch feature/phaser-three-poc
-    checkout feature/phaser-three-poc
-    commit id: "POC"
-    checkout main
-    merge feature/phaser-three-poc id: "approved POC"
-    branch feature/cova
-    checkout feature/cova
-    commit id: "Cova vertical slice"
-    checkout main
-    merge feature/cova id: "approved Cova"
+graph LR;
+    MainA["main"] --> Branch["feature branch"];
+    Branch --> PreviewA["Vercel Preview"];
+    PreviewA --> Test["iPad test and review"];
+    Test --> Merge["Approved merge"];
+    Merge --> MainB["main"];
+    MainB --> Prod["Production deployment"];
 ```
 
 Rules:
 
-- `main` should stay deployable.
+- `main` stays deployable.
 - Large changes use feature branches.
-- Every gameplay milestone is tested through Vercel Preview on iPad before merge.
-- Do not commit secrets.
-- Assets should have clear names and ownership / origin recorded.
-
----
+- Gameplay milestones are tested on iPad through Vercel Preview before merge.
+- Secrets are never committed.
+- Asset names and character ownership must stay explicit.
 
 ## 12. State trace
 
-### Historical prototype
+1. An early playable prototype was created in ChatGPT's local workspace.
+2. It was deployed directly to Vercel; GitHub was not the original deployment source.
+3. Touch controls were added for iPad play.
+4. The placeholder character/world quality was considered insufficient.
+5. GitHub repository `altairrojas/the-legend-of-comira` became the intended source of truth.
+6. The target architecture is TypeScript + Phaser 3 + Three.js + Vite.
+7. Comira is canonically the white-cat heroine.
+8. Cova is the correctly spelled dark/black cat playable character.
+9. Comira and Cova have separate documentation and asset trees.
+10. No gameplay code was changed in this planning/documentation pass.
 
-1. A first web prototype was created in ChatGPT's local workspace.
-2. It was deployed directly to Vercel from those local files.
-3. GitHub was **not** the source of that deployment.
-4. The prototype used a very simple placeholder Cova and simple Pornalia geometry.
-5. Touch controls were added because the target player was on iPad.
-6. The prototype proved that a browser-hosted playable page was possible, but the art / character / world quality was insufficient.
+## 13. Gate before coding resumes
 
-### Repository recovery
-
-1. GitHub repository `altairrojas/the-legend-of-comira` was created.
-2. Initial ChatGPT GitHub writes failed because the ChatGPT GitHub App was not installed.
-3. After installation, ChatGPT gained repository write access.
-4. README was successfully committed.
-5. Reference assets were added under `docs/assets`.
-6. The project is now intentionally paused before code reconstruction so the architecture can be agreed first.
-
----
-
-## 13. Definition of done before coding resumes
-
-The planning stage is complete only when these are reviewed and accepted:
-
-- [ ] Phaser 3 confirmed as primary game framework.
-- [ ] Three.js accepted as the 3D renderer companion.
-- [ ] TypeScript + Vite accepted.
-- [ ] Repository route layout accepted.
-- [ ] Scene / game route map accepted.
-- [ ] GitHub → Vercel automatic deployment verified end-to-end.
-- [ ] iPad-first control requirement accepted.
-- [ ] Supabase remains optional until a concrete need appears.
-- [ ] Correct visual references for Cova and Comira are identified.
-
-No game implementation should begin before this checklist is reviewed.
-
----
-
-## 14. Reference documentation
-
-Primary technical references used for this plan:
-
-- Phaser documentation: https://docs.phaser.io/
-- Phaser getting started: https://phaser.io/tutorials/getting-started-phaser3
-- Three.js manual: https://threejs.org/manual/en/creating-a-scene.html
-- Vercel Git deployments: https://vercel.com/docs/git
-- Vercel GitHub integration: https://vercel.com/docs/git/vercel-for-github
-- Supabase JavaScript client: https://supabase.com/docs/reference/javascript/introduction
-- Supabase database overview: https://supabase.com/docs/guides/database/overview
-- Supabase Auth: https://supabase.com/docs/guides/auth
-
----
-
-## 15. Current planning verdict
-
-**Recommended architecture:**
-
-> **TypeScript + Phaser 3 + Three.js + Vite → GitHub → Vercel**, with **Supabase optional**.
-
-The next action is **not coding**. The next action is to review this README, confirm the architecture, and complete the GitHub → Vercel verification gate.
+- [ ] Review and approve Phaser + Three architecture.
+- [ ] Review and approve Comira asset specification.
+- [ ] Keep Cova and Comira fully separate.
+- [ ] Verify GitHub → Vercel deployment end-to-end.
+- [ ] Create Phase 0 proof on a feature branch.
+- [ ] Test Phase 0 on iPad before building Pornalia.
