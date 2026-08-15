@@ -14,8 +14,18 @@ export interface FrameAnim {
   frames: number;
   frame_width: number;
   frame_height: number;
+  /** Optional: older manifests predate it, so treat it as possibly absent. */
+  frame_rate?: number;
   strip: string;
 }
+
+/**
+ * Phaser derives `msPerFrame` from `frameRate`, and an `undefined` frameRate
+ * yields `msPerFrame: null` — the animation reports as playing but never
+ * advances past frame 0. A manifest missing the field must not be able to
+ * silently freeze every animation, so fall back to a sane rate.
+ */
+const DEFAULT_FRAME_RATE = 10;
 
 export interface FramesManifest {
   anchor: string;
@@ -53,12 +63,6 @@ export function queueSpritesheets(
   }
 }
 
-/** Three-frame cycles ping-pong so the contact pose is not skipped. */
-function frameOrder(count: number): number[] {
-  const forward = Array.from({ length: count }, (_, i) => i);
-  return count === 3 ? [...forward, 1] : forward;
-}
-
 export function createAnimations(
   anims: Phaser.Animations.AnimationManager,
   meta: FramesManifest,
@@ -68,8 +72,8 @@ export function createAnimations(
     if (anims.exists(key)) continue;
     anims.create({
       key,
-      frames: frameOrder(anim.frames).map((frame) => ({ key, frame })),
-      frameRate: anim.name.startsWith("walk") ? 8 : 6,
+      frames: Array.from({ length: anim.frames }, (_, frame) => ({ key, frame })),
+      frameRate: anim.frame_rate ?? DEFAULT_FRAME_RATE,
       repeat: -1,
     });
   }

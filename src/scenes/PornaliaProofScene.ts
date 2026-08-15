@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 
+import { ActionButtons, type ActionSpec } from "../actionButtons";
 import { WALK_ANIM, textureKey } from "../comira";
 import { Controls } from "../controls";
 import {
@@ -28,6 +29,13 @@ interface Prop {
 
 const ORIGIN_ONLY: Vec2[] = [{ x: 0, y: 0 }];
 
+/** Everything Comira can do that is not locomotion. */
+const ACTIONS: ActionSpec[] = [
+  { anim: "attack_staff", label: "Attack" },
+  { anim: "jump", label: "Jump" },
+  { anim: "sit", label: "Sit" },
+];
+
 const PROPS: Prop[] = [
   {
     key: "prop-house",
@@ -53,7 +61,10 @@ const PROPS: Prop[] = [
  */
 export class PornaliaProofScene extends Phaser.Scene {
   private controls!: Controls;
+  private buttons!: ActionButtons;
   private comira!: Phaser.GameObjects.Sprite;
+  /** Non-looping animation currently playing, if any. */
+  private action: string | null = null;
 
   private pos: Vec2 = { x: CENTER, y: CENTER + 3 };
   private facing: Facing = "SE";
@@ -85,9 +96,24 @@ export class PornaliaProofScene extends Phaser.Scene {
     this.cameras.main.setZoom(1.3);
 
     this.controls = new Controls(this);
-    this.buildHud();
+    this.buttons = new ActionButtons(this, ACTIONS);
+    this.controls.setPointerFilter((x, y) => this.buttons.contains(x, y));
 
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.controls.destroy());
+    const hud = this.buildHud();
+    this.setUpUiCamera([
+      hud,
+      ...this.controls.displayObjects(),
+      ...this.buttons.displayObjects(),
+    ]);
+
+    this.comira.on(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+      this.action = null;
+    });
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.controls.destroy();
+      this.buttons.destroy();
+    });
   }
 
   private tileKey(i: number, j: number): string {
@@ -124,7 +150,24 @@ export class PornaliaProofScene extends Phaser.Scene {
     }
   }
 
-  private buildHud(): void {
+  /**
+   * A zoomed main camera also scales `scrollFactor(0)` objects about its
+   * centre, which pushed the HUD off-screen and would make the joystick appear
+   * away from the finger that summoned it. Give the overlay its own unzoomed
+   * camera instead, and keep each camera blind to the other's objects.
+   */
+  private setUpUiCamera(overlay: Phaser.GameObjects.GameObject[]): void {
+    const world = this.children.list.filter((o) => !overlay.includes(o));
+    const ui = this.cameras.add(0, 0, this.scale.width, this.scale.height);
+    ui.setScroll(0, 0);
+    ui.ignore(world);
+    this.cameras.main.ignore(overlay);
+    this.scale.on(Phaser.Scale.Events.RESIZE, (size: Phaser.Structs.Size) => {
+      ui.setSize(size.width, size.height);
+    });
+  }
+
+  private buildHud(): Phaser.GameObjects.Text {
     const text = this.add
       .text(
         16,
@@ -142,6 +185,7 @@ export class PornaliaProofScene extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(10_002);
     text.setAlpha(0.9);
+    return text;
   }
 
   private isBlocked(gx: number, gy: number): boolean {
@@ -183,8 +227,28 @@ export class PornaliaProofScene extends Phaser.Scene {
     this.comira.setDepth(depthFor(this.pos.x, this.pos.y));
   }
 
+  /** Play a one-shot action; the manifest animations otherwise loop forever. */
+  private startAction(anim: string): void {
+    this.action = anim;
+    this.moveTarget = null;
+    this.comira.play({ key: textureKey(anim), repeat: 0 });
+  }
+
   override update(_time: number, delta: number): void {
+    const requested = this.buttons.consumePressed();
+    if (requested) this.startAction(requested);
+
     const heading = this.desiredHeading();
+
+    // An action holds the sprite until it finishes, but steering cancels it so
+    // the controls never feel stuck.
+    if (this.action) {
+      if (!heading) {
+        this.syncSprite();
+        return;
+      }
+      this.action = null;
+    }
 
     if (!heading) {
       this.comira.anims.stop();

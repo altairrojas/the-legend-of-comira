@@ -1,6 +1,6 @@
 {
   "derived_from": "docs/assets/characters/comira/reference/isometric-master",
-  "pipeline": "restitch tiles 01-05 -> border flood-fill key -> drop baked ground shadows -> uniform cells -> shared per-animation bbox",
+  "pipeline": "reference extraction -> high-fidelity AI pose cleanup and in-betweening -> chroma-key alpha -> shared per-animation bbox",
   "anchor": "bottom-center",
   "animations": [
     {
@@ -8,33 +8,36 @@
       "direction": "SE",
       "tier": "primary",
       "source": "06_vfx_light.webp",
-      "frames": 3,
-      "frame_width": 72,
-      "frame_height": 83,
+      "frames": 6,
+      "frame_width": 80,
+      "frame_height": 96,
       "strip": "walk_down_right_strip.png",
-      "origin": "extracted"
+      "origin": "ai-polished",
+      "frame_rate": 10
     },
     {
       "name": "walk_up_left",
       "direction": "NW",
       "tier": "primary",
       "source": "06_vfx_light.webp",
-      "frames": 3,
-      "frame_width": 74,
-      "frame_height": 78,
+      "frames": 6,
+      "frame_width": 80,
+      "frame_height": 96,
       "strip": "walk_up_left_strip.png",
-      "origin": "extracted"
+      "origin": "ai-polished",
+      "frame_rate": 10
     },
     {
       "name": "walk_up_right",
       "direction": "NE",
       "tier": "primary",
       "source": "06_vfx_light.webp",
-      "frames": 3,
-      "frame_width": 72,
-      "frame_height": 83,
+      "frames": 6,
+      "frame_width": 80,
+      "frame_height": 96,
       "strip": "walk_up_right_strip.png",
-      "origin": "extracted"
+      "origin": "ai-polished",
+      "frame_rate": 10
     },
     {
       "name": "sit",
@@ -42,77 +45,83 @@
       "tier": "primary",
       "source": "07_vfx_heal_and_shadow.webp",
       "frames": 4,
-      "frame_width": 72,
-      "frame_height": 65,
+      "frame_width": 80,
+      "frame_height": 80,
       "strip": "sit_strip.png",
-      "origin": "extracted"
+      "origin": "ai-polished",
+      "frame_rate": 5
     },
     {
       "name": "jump",
       "direction": "S",
       "tier": "primary",
       "source": "07_vfx_heal_and_shadow.webp",
-      "frames": 4,
-      "frame_width": 78,
-      "frame_height": 97,
+      "frames": 6,
+      "frame_width": 96,
+      "frame_height": 128,
       "strip": "jump_strip.png",
-      "origin": "extracted"
+      "origin": "ai-polished",
+      "frame_rate": 10
     },
     {
       "name": "attack_staff",
       "direction": "S",
       "tier": "primary",
       "source": "07_vfx_heal_and_shadow.webp",
-      "frames": 4,
-      "frame_width": 100,
-      "frame_height": 83,
+      "frames": 6,
+      "frame_width": 120,
+      "frame_height": 96,
       "strip": "attack_staff_strip.png",
-      "origin": "extracted"
+      "origin": "ai-polished",
+      "frame_rate": 12
     },
     {
       "name": "walk_north",
       "direction": "N",
-      "tier": "secondary",
+      "tier": "primary",
       "source": "__stitch__",
-      "frames": 5,
-      "frame_width": 40,
-      "frame_height": 53,
+      "frames": 6,
+      "frame_width": 80,
+      "frame_height": 96,
       "strip": "walk_north_strip.png",
-      "origin": "extracted"
+      "origin": "ai-polished",
+      "frame_rate": 10
     },
     {
       "name": "walk_west",
       "direction": "W",
-      "tier": "secondary",
+      "tier": "primary",
       "source": "__stitch__",
-      "frames": 5,
-      "frame_width": 41,
-      "frame_height": 69,
+      "frames": 6,
+      "frame_width": 80,
+      "frame_height": 96,
       "strip": "walk_west_strip.png",
-      "origin": "extracted"
+      "origin": "ai-polished",
+      "frame_rate": 10
     },
     {
       "name": "walk_east",
       "direction": "E",
-      "tier": "secondary",
+      "tier": "primary",
       "source": "__stitch__",
-      "frames": 5,
-      "frame_width": 49,
-      "frame_height": 68,
+      "frames": 6,
+      "frame_width": 80,
+      "frame_height": 96,
       "strip": "walk_east_strip.png",
-      "origin": "extracted"
+      "origin": "ai-polished",
+      "frame_rate": 10
     },
     {
       "name": "walk_down_left",
       "direction": "SW",
-      "tier": "stopgap",
-      "source": "mirror of walk_down_right",
-      "frames": 3,
-      "frame_width": 72,
-      "frame_height": 83,
+      "tier": "primary",
+      "source": "06_vfx_light.webp + authored direction correction",
+      "frames": 6,
+      "frame_width": 80,
+      "frame_height": 96,
       "strip": "walk_down_left_strip.png",
-      "origin": "mirrored",
-      "caveat": "Horizontal mirror flips the satchel to the wrong side; replace with authored art."
+      "origin": "ai-polished",
+      "frame_rate": 10
     }
   ]
 }

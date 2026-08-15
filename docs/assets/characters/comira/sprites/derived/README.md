@@ -1,79 +1,78 @@
-# Comira — derived animation frames
+# Comira - polished animation frames
 
-Transparent, anchor-consistent frames derived from the ten
-`reference/isometric-master` crops, per that package's own rule that the
-reference sheets must not be used directly as the movable Phaser character.
+Transparent, bottom-center anchored runtime sprites polished from the extracted
+Comira reference animations. The set now uses one consistent character design,
+clean antialiased edges, normalized walk scale, and authored in-between poses.
 
-Regenerate with:
+## Runtime set
 
-```bash
-python tools/derive_comira_sprites.py
-```
-
-The reference crops are untouched; everything here is reproducible from them.
-
-## What is here
-
-| Animation | Dir | Frames | Frame size | Tier |
-|---|---|---|---|---|
-| `walk_down_right` | SE | 3 | 72×83 | primary |
-| `walk_up_left` | NW | 3 | 74×78 | primary |
-| `walk_up_right` | NE | 3 | 72×83 | primary |
-| `walk_down_left` | SW | 3 | 72×83 | **stopgap — mirrored** |
-| `walk_north` | N | 5 | 40×53 | secondary |
-| `walk_west` | W | 5 | 41×69 | secondary |
-| `walk_east` | E | 5 | 49×68 | secondary |
-| `sit` | S | 4 | 72×65 | primary |
-| `jump` | S | 4 | 78×97 | primary |
-| `attack_staff` | S | 4 | 100×83 | primary |
+| Animation | Dir | Frames | Frame size | FPS |
+|---|---|---:|---:|---:|
+| `walk_down_right` | SE | 6 | 80x96 | 10 |
+| `walk_down_left` | SW | 6 | 80x96 | 10 |
+| `walk_up_left` | NW | 6 | 80x96 | 10 |
+| `walk_up_right` | NE | 6 | 80x96 | 10 |
+| `walk_north` | N | 6 | 80x96 | 10 |
+| `walk_west` | W | 6 | 80x96 | 10 |
+| `walk_east` | E | 6 | 80x96 | 10 |
+| `sit` | S | 4 | 80x80 | 5 |
+| `jump` | S | 6 | 96x128 | 10 |
+| `attack_staff` | S | 6 | 120x96 | 12 |
 
 Each animation ships as individual `name/name_NN.png` frames plus a horizontal
-`name_strip.png`. `frames.json` is the machine-readable index. `preview/*.gif`
-are loop previews for eyeballing timing only — not runtime assets.
+`name_strip.png`. `frames.json` is the runtime source of truth. Preview GIFs are
+for visual timing checks only.
 
-`_reconstructed_sheet.png` is reference tiles 01–05 restitched (see below).
+## Production process
 
-## How it was produced
+1. Extract the recoverable source poses with `tools/derive_comira_sprites.py`.
+2. Use the source strips as motion references and a validated polished Comira
+   sheet as the locked style reference.
+3. Author six-stage walk, jump, and attack cycles with explicit contact,
+   passing, recoil, apex, impact, and recovery poses as appropriate.
+4. Render on a flat magenta key, remove the key to soft alpha, and reject any
+   sheet with shadows, merged cells, wrong facing, or inconsistent identity.
+5. Run `tools/process_polished_sprite.py` to preserve one shared animation bbox,
+   normalize scale, retain motion offsets, and write runtime strips and frames.
 
-1. **Restitch.** Tiles `01`–`05` are contiguous 512px-wide vertical bands of one
-   larger sheet, not independent slices. Concatenating them in order restores the
-   cardinal walk rows that the tile boundaries had cut through mid-body.
-2. **Key the background.** The crops are opaque, with a paper texture behind the
-   art. Alpha comes from a flood fill seeded on the panel border, so the
-   character's own white fur — enclosed by its outline — is never keyed out.
-3. **Drop baked ground shadows.** The painted grey contact ovals are removed; a
-   shadow that does not track the character breaks the anchor and double-draws
-   against a runtime shadow.
-4. **Repair divider cuts.** Card rules are the same near-white as the paper, so
-   the fill ran down them and slit some sprites. Tall, thin, enclosed cuts are
-   refilled and recoloured from neighbouring pixels.
-5. **Cut cells, then share one bbox.** Frames are cut on a per-row grid and then
-   all cropped to one bbox for that animation, so each frame keeps its position
-   within the cycle. Trimming frames individually would flatten the walk bob and
-   the jump arc. The `jump` row is not evenly pitched and uses explicit cuts.
+6. Run `tools/publish_comira_sprites.py` to repair alpha and copy the strips and
+   manifest into `public/assets/characters/comira`, which is what the game
+   actually loads. **This step is required** — editing only this directory
+   changes nothing at runtime.
 
-Anchor is **bottom-centre** for every animation.
+The fitting, alpha-repair and publish steps are reproducible. The AI
+pose-authoring step is stochastic and requires visual review.
 
-## Known limitations
+> **Reproducibility caveat.** The extracted set could be rebuilt from the
+> committed reference crops by running one script. This set cannot: its true
+> sources are the AI renders, and those intermediates are **not in the repo**
+> (an earlier draft of this file pointed at `output/imagegen/`, which does not
+> exist). Treat the PNGs here as the source of truth, not a build artifact.
 
-- **Alpha is binary**, not feathered. Correct for crisp sprite rendering; it does
-  mean edges are hard at large upscales.
-- **`walk_down_left` is a horizontal mirror** of `walk_down_right`. This flips
-  the satchel to the character's wrong side. It exists so eight-way movement can
-  be wired up now; replace it with authored art.
-- **Cardinal walks are roughly half the pixel height of the diagonals** (~53–69px
-  vs ~78–83px) because they come from the low-resolution 512px-wide tiles. For a
-  fixed isometric camera the diagonals are the primary movement axes, so this is
-  usually acceptable — but do not mix tiers at the same on-screen scale.
-- **No south-facing (`S`) walk cycle exists.** That row was truncated by the tile
-  cut and cannot be recovered from the surviving crops.
-- **`jump` and `attack_staff` include the fairy companion and staff VFX** baked
-  into the frames. Separate them if the companion is its own entity.
-- **Source is lossy WebP.** Colours carry mild compression artifacts; these are
-  reference-derived production stand-ins, not final art.
-- **Not yet packed into a texture atlas** and frame sizes differ per animation.
-  Pack before shipping if draw-call count matters.
+## Improvements over the extracted set
 
+- Walk cycles increased from 3-5 poses to six distinct poses.
+- All walk directions now share the same `80x96` frame grid and visual scale.
+- Southwest is independently authored and no longer a mirrored southeast strip.
+- Jump has a readable crouch, launch, rise, apex, fall, and landing arc.
+- Staff attack has a continuous windup, swing, impact, follow-through, and
+  recovery path.
+- The baked fairy companion and detached jump VFX were removed.
+- A 1px antialiased rim replaces the old binary cutout edges.
+
+## Fixed after the polish pass
+
+The magenta-key removal left roughly a fifth of the body at ~45% opacity in 8 of
+the 10 animations — not soft *edges* but translucent *interiors*, so the ground
+colour bled through and the satchel read olive on grass and pink on magenta. The
+RGB underneath was correct, so `tools/publish_comira_sprites.py` forces interior
+pixels opaque and keeps the outer rim antialiased. Re-run it after any future
+render pass; do not assume a chroma key got the interior right.
+
+## Remaining limitation
+
+No true south-facing walk source exists. The four isometric runtime movement
+axes remain SE, SW, NW, and NE; cardinal sheets are available for future use.
 ## The reference manifest labels are wrong
 
 `reference/isometric-master/manifest.json` names the tiles by guessed content.

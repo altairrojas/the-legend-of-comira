@@ -27,6 +27,7 @@ export class Controls {
   private stick: Vec2 = { x: 0, y: 0 };
 
   private tapTarget: Vec2 | null = null;
+  private pointerFilter: ((x: number, y: number) => boolean) | null = null;
 
   private readonly base: Phaser.GameObjects.Arc;
   private readonly knob: Phaser.GameObjects.Arc;
@@ -69,7 +70,16 @@ export class Controls {
     }
   }
 
+  /**
+   * Screen regions owned by UI. A press inside one must not also steer or
+   * fire a tap-to-move, or tapping an action button would walk Comira to it.
+   */
+  setPointerFilter(fn: (x: number, y: number) => boolean): void {
+    this.pointerFilter = fn;
+  }
+
   private onDown(p: Phaser.Input.Pointer) {
+    if (this.pointerFilter?.(p.x, p.y)) return;
     if (this.pointerId !== null) return;
     this.pointerId = p.id;
     this.origin = { x: p.x, y: p.y };
@@ -124,6 +134,11 @@ export class Controls {
     if (x === 0 && y === 0) return { x: 0, y: 0 };
     const len = Math.hypot(x, y);
     return { x: x / len, y: y / len };
+  }
+
+  /** Overlay objects, so the scene can route them to an unzoomed UI camera. */
+  displayObjects(): Phaser.GameObjects.GameObject[] {
+    return [this.base, this.knob];
   }
 
   /** Pending tap-to-move destination in world pixels; cleared once read. */

@@ -18,6 +18,10 @@ with the floating joystick, or tap a tile to walk there — both schemes are liv
 so they can be compared, as the control plan requires. Arrow keys and WASD work
 on desktop as a convenience; nothing depends on them.
 
+Buttons in the bottom-right corner play the non-locomotion animations — **Attack**,
+**Jump** and **Sit**. Each plays once and returns to idle, and steering cancels
+it, so the controls never feel stuck mid-animation.
+
 Caveats worth knowing before reading too much into it:
 
 - The scene uses **Comira**, because hers are the only derived sprites that
