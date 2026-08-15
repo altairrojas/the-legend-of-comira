@@ -15,6 +15,8 @@ export interface ActionSpec {
   /** Animation name in the frames manifest, e.g. `jump`. */
   anim: string;
   label: string;
+  /** Hold the final pose when the clip ends, until movement breaks it. */
+  hold?: boolean;
 }
 
 interface Rect {

@@ -33,8 +33,12 @@ const ORIGIN_ONLY: Vec2[] = [{ x: 0, y: 0 }];
 const ACTIONS: ActionSpec[] = [
   { anim: "attack_staff", label: "Attack" },
   { anim: "jump", label: "Jump" },
-  { anim: "sit", label: "Sit" },
+  // Sitting is a state, not a gesture: settle into the pose and stay there
+  // until the player moves off.
+  { anim: "sit", label: "Sit", hold: true },
 ];
+
+const HOLD_ANIMS = new Set(ACTIONS.filter((a) => a.hold).map((a) => a.anim));
 
 const PROPS: Prop[] = [
   {
@@ -106,8 +110,10 @@ export class PornaliaProofScene extends Phaser.Scene {
       ...this.buttons.displayObjects(),
     ]);
 
+    // A holding action keeps `action` set once the clip ends, so update() stays
+    // in its early-return branch and Phaser leaves the last frame on screen.
     this.comira.on(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
-      this.action = null;
+      if (this.action && !HOLD_ANIMS.has(this.action)) this.action = null;
     });
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
