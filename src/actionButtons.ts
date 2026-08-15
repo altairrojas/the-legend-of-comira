@@ -64,13 +64,11 @@ export class ActionButtons {
     scene.scale.on(Phaser.Scale.Events.RESIZE, this.layout, this);
   }
 
-  /** Stacked bottom-right, clear of the left-hand joystick area. */
+  /** Stacked top-right, clear of the left-hand joystick and bottom play area. */
   private layout(): void {
     const w = this.scene.scale.width;
-    const h = this.scene.scale.height;
     const x = w - MARGIN - BTN_W;
-    const total = this.specs.length * BTN_H + (this.specs.length - 1) * GAP;
-    const top = h - MARGIN - total;
+    const top = MARGIN;
 
     this.rects = this.specs.map((_, i) => ({
       x,
